@@ -160,9 +160,8 @@ html, body {
   width: 600px;
   height: 450px;
   background-color: black;
-  display: inline;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  flex-direction: column;
 }
 
 .image-display img {
@@ -300,4 +299,27 @@ html, body {
 
 #summary{
   cursor: pointer
+}
+
+.popup2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
+  display: none; /* 처음엔 숨김 */
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  border-color: #5e5e5e;
+}
+
+.popup-content2 {
+  background: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 10px;
+  width: 450px;
+  height: 400px;
+  position: relative;
 }
