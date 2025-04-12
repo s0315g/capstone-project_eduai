@@ -14,14 +14,14 @@
     <div class="slide slide3" id="slide3">
       <header class="main-header">
         <nav class="menu">
-          <a id="main">main screen</a>
-          <a id="summary">picture summary</a>
-          <a id="analysis">analysis</a>
-          <a id="chat">chat bot</a>
+          <p id="main">main screen</p>
+          <p id="summary">picture summary</p>
+          <p id="analysis">analysis</p>
+          <p id="chat">chat bot</p>
         </nav>
         <div class="auth-buttons">
-          <button>log in</button>
-          <button>sign up</button>
+          <button id="loginBtn">log in</button>
+          <button id="singUpBtn">sign up</button>
         </div>
       </header>
 
@@ -57,12 +57,25 @@
   </div>
 
 
-  <div class="slide slide4">
-
-
-
-    
+ <!-- 로그인 팝업 (처음엔 숨김) -->
+<div id="slide4" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" id="closePopup">&times;</span>
+    <h2 id="loginTitle">LOGIN</h2>
+    <br><h2></h2>
+    <br><h2></h2>
+    <form class="login-form">
+      <label for="username">ID</label>
+      <input type="text" id="username" placeholder="아이디 입력" required /><br>
+      <label for="password">PASSWORD</label>
+      <input type="password" id="password" placeholder="비밀번호 입력" required />
+      <br><h2></h2>
+      <br><h2></h2>
+      <button type="submit" id="submit">LOGIN</button>
+    </form>
   </div>
+</div>
+
 
   <script src="education.js"></script>
 </body>
