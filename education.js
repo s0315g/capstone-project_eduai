@@ -45,6 +45,49 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBd5kF2YRgtM3XUTXIr1DikdtBQbPyNSUw",
+  authDomain: "ai-education-119c3.firebaseapp.com",
+  projectId: "ai-education-119c3",
+  storageBucket: "ai-education-119c3.firebasestorage.app",
+  messagingSenderId: "650396084562",
+  appId: "1:650396084562:web:f01e3fddabed0e7101b28b",
+  measurementId: "G-YJFWW5QG0W"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+// 로그인 함수
+function login() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // 로그인 성공
+      const user = userCredential.user;
+      alert('로그인 성공! 사용자: ' + user.email);
+    })
+    .catch((error) => {
+      // 로그인 실패
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert('로그인 실패: ' + errorMessage);
+    });
+}
+
+// 로그아웃 함수
+function logout() {
+  firebase.auth().signOut()
+    .then(() => {
+      alert('로그아웃 성공!');
+    })
+    .catch((error) => {
+      alert('로그아웃 실패: ' + error.message);
+    });
+}
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const titleimg = document.getElementById("title1");

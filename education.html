@@ -5,6 +5,10 @@
   <title>AI Teacher Intro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="education.css">
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+
 </head>
 <body>
   <div class="container">
@@ -15,14 +19,18 @@
       <header class="main-header">
         <nav class="menu">
           <a id="main">main screen</a>
+          <a id="main">main screen2</a>
           <a id="summary">picture summary</a>
           <a id="analysis">analysis</a>
           <a id="chat">chat bot</a>
         </nav>
-        <div class="auth-buttons">
-          <button>log in</button>
-          <button>sign up</button>
+        <div id="login-form">
+          <input type="email" id="email" placeholder="이메일" required />
+          <input type="password" id="password" placeholder="비밀번호" required />
+          <button onclick="login()">로그인</button>
         </div>
+        <button onclick="logout()">로그아웃</button>
+
       </header>
 
 
