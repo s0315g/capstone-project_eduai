@@ -18,6 +18,7 @@
     <div class="slide slide3" id="slide3">
       <header class="main-header">
         <nav class="menu">
+<<<<<<< HEAD
           <a id="main">main screen</a>
           <a id="main">main screen2</a>
           <a id="summary">picture summary</a>
@@ -28,6 +29,16 @@
           <input type="email" id="email" placeholder="이메일" required />
           <input type="password" id="password" placeholder="비밀번호" required />
           <button onclick="login()">로그인</button>
+=======
+          <p id="main">main screen</p>
+          <p id="summary">picture summary</p>
+          <p id="analysis">analysis</p>
+          <p id="chat">chat bot</p>
+        </nav>
+        <div class="auth-buttons">
+          <button id="loginBtn">log in</button>
+          <button id="singUpBtn">sign up</button>
+>>>>>>> d16e036a1374ced7277f354dbb3983edaa9de125
         </div>
         <button onclick="logout()">로그아웃</button>
 
@@ -65,12 +76,25 @@
   </div>
 
 
-  <div class="slide slide4">
-
-
-
-    
+ <!-- 로그인 팝업 (처음엔 숨김) -->
+<div id="slide4" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" id="closePopup">&times;</span>
+    <h2 id="loginTitle">LOGIN</h2>
+    <br><h2></h2>
+    <br><h2></h2>
+    <form class="login-form">
+      <label for="username">ID</label>
+      <input type="text" id="username" placeholder="아이디 입력" required /><br>
+      <label for="password">PASSWORD</label>
+      <input type="password" id="password" placeholder="비밀번호 입력" required />
+      <br><h2></h2>
+      <br><h2></h2>
+      <button type="submit" id="submit">LOGIN</button>
+    </form>
   </div>
+</div>
+
 
   <script src="education.js"></script>
 </body>

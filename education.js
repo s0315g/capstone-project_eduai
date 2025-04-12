@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 160) {
+    if (scrollTop > 250) {
       titleimg.classList.add("show");
       titleimg.classList.remove("hide");
     } else {
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 160) {
+    if (scrollTop > 250) {
       imgUpload.classList.add("show");
       imgUpload.classList.remove("hide");
     } else {
@@ -136,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 550) {
+    if (scrollTop > 700) {
       sidebar.classList.add("show");
       sidebar.classList.remove("hide");
     } else {
@@ -145,3 +145,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+const popup = document.getElementById('slide4');
+const loginBtn = document.getElementById('loginBtn');
+const closeBtn = document.getElementById('closePopup');
+
+loginBtn.addEventListener('click', () => {
+  popup.style.display = 'flex'; // 팝업 열기
+});
+
+closeBtn.addEventListener('click', () => {
+  popup.style.display = 'none'; // 팝업 닫기
+});
+
+// 바깥쪽 클릭하면 닫히게
+window.addEventListener('click', (e) => {
+  if (e.target === popup) {
+    popup.style.display = 'none';
+  }
+});
+
+  document.getElementById('summary').addEventListener('click', function () {
+    const target = document.getElementById('upload-container');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
