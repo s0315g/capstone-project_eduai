@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>AI Teacher Intro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="education.css">
+  <link rel="stylesheet" href="/education/education.css">
 </head>
 <body>
   <div class="container">
@@ -22,13 +22,19 @@
         <div class="auth-buttons">
           <button id="loginBtn">log in</button>
           <button id="signUpBtn">sign up</button>
+          <button id="logoutBtn" style="display: none;">log out</button>
         </div>
       </header>
-
+      <main>
+        <div id="welcome-message" style="display: none;">
+            <h2>환영합니다!</h2>
+            <p>안녕하세요, <span id="user-name"></span>님!</p>
+        </div>
+    </main>
 
       <div class="slide3-content" id="slide3Content">
         <div class="screenImg">
-          <img src="Group3.png" alt="Group 3" id="Group3">
+          <img src="/education/Group3.png" alt="Group 3" id="Group3">
             <div class="scroll-arrow" id="scrollArrow">
               <div class="arrow-head"></div>
               <div class="arrow-line"></div>
@@ -43,7 +49,7 @@
             <p id="chatSide">chat bot</p>
           </div>
 
-          <img src="Picture Summary.png" alt="Picture Summary"  id="title1">
+          <img src="/education/Picture Summary.png" alt="Picture Summary"  id="title1">
           <div class="upload-container" id="upload-container">
             <div class="image-display">
               <img id="preview" alt="미리보기 이미지">
@@ -57,49 +63,101 @@
   </div>
 
 
- <!-- 로그인 팝업 (처음엔 숨김) -->
-<div id="slide4" class="popup">
-  <div class="popup-content">
-    <span class="close-btn" id="closePopup">&times;</span>
-    <h2 id="loginTitle">LOGIN</h2>
-    <br><h2></h2>
-    <br><h2></h2>
-    <form class="login-form">
-      <label for="username">ID</label>
-      <input type="text" id="username" placeholder="아이디 입력" required /><br>
-      <label for="password">PASSWORD</label>
-      <input type="password" id="password" placeholder="비밀번호 입력" required />
-      <br><h2></h2>
-      <br><h2></h2>
-      <button type="submit" id="submit">LOGIN</button>
-    </form>
+  <div id="loginModal" class="popup">
+    <div class="popup-content">
+      <span class="close-btn close">&times;</span>
+      <h2>LOGIN</h2>
+      <form id="loginForm" class="login-form">
+        <label for="login-email">ID</label>
+        <input type="email" id="login-email" placeholder="이메일 입력" required /><br>
+        <label for="login-password">PASSWORD</label>
+        <input type="password" id="login-password" placeholder="비밀번호 입력" required /><br>
+        <button type="submit" id="loginSubmit">LOGIN</button>
+      </form>
+    </div>
   </div>
-</div>
-
-
-<div id="slide5" class="popup2">
-  <div class="popup-content2">
-    <span class="close-btn" id="closePopup2">&times;</span>
-    <h2 id="loginTitle">LOGIN</h2>
-    <br><h2></h2>
-    <br><h2></h2>
-    <form class="login-form">
-      <label for="Nickname">Nickname</label>
-      <input type="text" id="Nickname" placeholder="닉네임" required /><br>
-      <label for="password">Email</label>
-      <input type="email" id="Email" placeholder="이메일 입력" required /><br>
-      <label for="username">ID</label>
-      <input type="text" id="username" placeholder="아이디 입력" required /><br>
-      <label for="password">PASSWORD</label>
-      <input type="password" id="password" placeholder="비밀번호 입력" required /><br>
-      <br><h2></h2>
-      <br><h2></h2>
-      <button type="submit" id="submit">LOGIN</button>
-    </form>
+  
+  <!-- 회원가입 팝업 -->
+  <div id="signupModal" class="popup2">
+    <div class="popup-content2">
+      <span class="close-btn close">&times;</span>
+      <h2>SIGN UP</h2>
+      <form id="signupForm" class="login-form">
+        <label for="signup-name">Nickname</label>
+        <input type="text" id="signup-name" placeholder="닉네임" required /><br>
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="이메일 입력" required /><br>
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="비밀번호 입력" required /><br>
+        <button type="submit" id="signupSubmit">SIGN UP</button>
+      </form>
+    </div>
   </div>
-</div>
+
+  <div id="welcome-message" style="display: none;">
+    Welcome, <span id="user-name"></span>!
+    <button id="logoutBtn" style="display: none;">Logout</button>
+  </div>
+  
 
 
-  <script src="education.js"></script>
+  <script type="module">
+    // Firebase SDK 초기화
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBNOBRL0_zLNt0ogbQmq-QzyMyHSfAAbLQ",
+        authDomain: "testproject-59136.firebaseapp.com",
+        projectId: "testproject-59136",
+        storageBucket: "testproject-59136.firebasestorage.app",
+        messagingSenderId: "886097545077",
+        appId: "1:886097545077:web:115300f2b10f710ed7f53c",
+        measurementId: "G-P5TFYE0MM6"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    // 전역 객체에 Firebase 인스턴스 할당
+    window.firebaseApp = app;
+    window.firebaseAuth = auth;
+    window.firebaseAuthFunctions = {
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        updateProfile,
+        signOut
+    };
+
+    // Firebase 초기화 완료 이벤트 발생
+    window.dispatchEvent(new Event('firebaseInitialized'));
+</script>
+
+<!-- 모달 함수 -->
+<script>
+    function openModal(modal) {
+        if (modal) {
+            modal.style.display = 'block';
+        }
+    }
+
+    function closeModal(modal) {
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // 모달 외부 클릭 시 닫기
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            event.target.style.display = 'none';
+        }
+    }
+</script>
+
+  <script src="/education/education.js"></script>
 </body>
 </html>

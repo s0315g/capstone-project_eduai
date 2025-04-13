@@ -1,15 +1,14 @@
 const input = document.getElementById('photo-upload');
-const preview = document.getElementById('preview');
 const imageDisplay = document.querySelector('.image-display');
 const slide3 = document.querySelector(".slide3");
 const arrow = document.getElementById("scrollArrow");
-const signUpBtn = document.getElementById('signUpBtn');
 const popup = document.getElementById('slide4');
 const popup2 = document.getElementById('slide5');
-const loginBtn = document.getElementById('loginBtn');
 const closeBtn = document.getElementById('closePopup');
 const closeBtn2 = document.getElementById('closePopup2');
-// 슬라이드 전환
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+
 setTimeout(() => {
   document.querySelector('.slide1').classList.remove('remove');
   document.querySelector('.slide2').classList.add('active');
@@ -19,36 +18,6 @@ setTimeout(() => {
   document.querySelector('.slide2').classList.remove('remove');
   slide3.classList.add('active');
 }, 1600);
-
-// 이미지 업로드 미리보기
-input.addEventListener('change', function () {
-  const file = this.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      preview.src = e.target.result;
-      imageDisplay.style.display = 'flex';
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-// 스크롤 화살표 제어
-document.addEventListener("DOMContentLoaded", () => {
-  const arrow = document.getElementById("scrollArrow");
-  const scrollContent = document.getElementById("slide3");
-
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 10) {
-      arrow.classList.add("show");
-      arrow.classList.remove("hide");
-    } else {
-      arrow.classList.remove("show", "hide");
-    }
-  });
-});
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -108,60 +77,156 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-loginBtn.addEventListener('click', () => {
-  popup.style.display = 'flex'; // 팝업 열기
-});
 
-closeBtn.addEventListener('click', () => {
-  popup.style.display = 'none'; // 팝업 닫기
-});
-
-// 바깥쪽 클릭하면 닫히게
-window.addEventListener('click', (e) => {
-  if (e.target === popup) {
-    popup.style.display = 'none';
+// 슬라이드 화살표 클릭 시 스크롤 이동
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollArrow = document.getElementById('scrollArrow');
+  if (scrollArrow) {
+    scrollArrow.addEventListener('click', () => {
+      const slide3Content = document.getElementById('slide3Content');
+      slide3Content.scrollIntoView({ behavior: 'smooth' });
+    });
   }
 });
 
-
-signUpBtn.addEventListener('click', () => {
-  popup2.style.display = 'flex'; // 팝업 열기
-});
-
-
-closeBtn2.addEventListener('click', () => {
-  popup2.style.display = 'none'; // 팝업 닫기
-});
-
-
-// 바깥쪽 클릭하면 닫히게
-window.addEventListener('click', (e) => {
-  if (e.target === popup2) {
-    popup2.style.display = 'none';
+// 사이드바 및 메뉴 클릭 시 스크롤 이동
+const scrollToSection = (id) => {
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
   }
+};
+
+document.getElementById('summary')?.addEventListener('click', () => scrollToSection('title1'));
+document.getElementById('summarySide')?.addEventListener('click', () => scrollToSection('title1'));
+document.getElementById('main')?.addEventListener('click', () => scrollToSection('Group3'));
+document.getElementById('analysis')?.addEventListener('click', () => scrollToSection('title1'));
+document.getElementById('analysisSide')?.addEventListener('click', () => scrollToSection('title1'));
+document.getElementById('chat')?.addEventListener('click', () => scrollToSection('title1'));
+document.getElementById('chatSide')?.addEventListener('click', () => scrollToSection('title1'));
+
+// 이미지 업로드 미리보기
+const photoUpload = document.getElementById('photo-upload');
+const preview = document.getElementById('preview');
+
+if (photoUpload && preview) {
+  photoUpload.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    }
+  });
+}
+
+// 모달 제어
+const loginModal = document.getElementById('loginModal');
+const signupModal = document.getElementById('signupModal');
+const loginBtn = document.getElementById('loginBtn');
+const signUpBtn = document.getElementById('signUpBtn');
+const closeButtons = document.querySelectorAll('.close');
+
+loginBtn?.addEventListener('click', () => openModal(loginModal));
+signUpBtn?.addEventListener('click', () => openModal(signupModal));
+closeButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    closeModal(loginModal);
+    closeModal(signupModal);
+  });
+});
+
+// Firebase 기능
+window.addEventListener('firebaseInitialized', () => {
+  const auth = window.firebaseAuth;
+  const {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    signOut
+  } = window.firebaseAuthFunctions;
+
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const welcomeMessage = document.getElementById('welcome-message');
+  const userNameSpan = document.getElementById('user-name');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const updateUI = (user) => {
+    if (user) {
+      userNameSpan.textContent = user.displayName || user.email;
+      welcomeMessage.style.display = 'block';
+      logoutBtn.style.display = 'inline-block';
+      loginBtn.style.display = 'none';
+      signUpBtn.style.display = 'none';
+    } else {
+      welcomeMessage.style.display = 'none';
+      logoutBtn.style.display = 'none';
+      loginBtn.style.display = 'inline-block';
+      signUpBtn.style.display = 'inline-block';
+    }
+  };
+
+  // 로그인
+  loginForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      updateUI(userCredential.user);
+      closeModal(loginModal);
+    } catch (error) {
+      alert('로그인 실패: ' + error.message);
+    }
+  });
+
+  // 회원가입
+  signupForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const nickname = document.getElementById('signup-name').value;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: nickname,
+      });
+      updateUI(userCredential.user);
+      closeModal(signupModal);
+    } catch (error) {
+      alert('회원가입 실패: ' + error.message);
+    }
+  });
+
+  // 로그아웃
+  logoutBtn?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      updateUI(null);
+    } catch (error) {
+      alert('로그아웃 실패: ' + error.message);
+    }
+  });
+
+  // 인증 상태 감지
+  auth.onAuthStateChanged((user) => {
+    updateUI(user);
+  });
 });
 
 
-  document.getElementById('summary').addEventListener('click', function () {
-    const target = document.getElementById('title1');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+document.addEventListener("DOMContentLoaded", () => {
+  const arrow = document.getElementById("scrollArrow");
+  const scrollContent = document.getElementById("slide3");
+
+  scrollContent.addEventListener("scroll", () => {
+    const scrollTop = scrollContent.scrollTop;
+
+    if (scrollTop > 10) {
+      arrow.classList.add("show");
+      arrow.classList.remove("hide");
+    } else {
+      arrow.classList.remove("show", "hide");
     }
   });
-
-  
-  document.getElementById('summarySide').addEventListener('click', function () {
-    const target = document.getElementById('title1');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-
-  document.getElementById('main').addEventListener('click', function () {
-    const target = document.getElementById('Group3');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-
-  
+});

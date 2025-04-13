@@ -72,12 +72,13 @@ html, body {
   gap: 150px;
 }
 
-.menu a-p {
+.menu p {
   text-decoration: none;
   color: black;
   font-size: 16px;
   font-weight: 400;
   transition: text-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .menu p:hover {
@@ -189,24 +190,21 @@ html, body {
   align-items: center;
 }
 
-/* 화살표 머리: 위를 향하는 큰 삼각형 */
 .scroll-arrow .arrow-head {
   width: 0;
   height: 0;
   border-left: 30px solid transparent;
   border-right: 30px solid transparent;
-  border-bottom: 40px solid black;  /* 위쪽을 향하게 함 */
+  border-bottom: 40px solid black;
 }
 
-/* 화살표 선 */
 .scroll-arrow .arrow-line {
   width: 6px;
   height: 60px;
   background-color: black;
-  margin-top: -5px; /* 삼각형과 선의 간격 조절 (자연스럽게 겹치게) */
+  margin-top: -5px;
   border-radius: 3px;
 }
-
 
 .scroll-arrow.show {
   opacity: 1;
@@ -229,10 +227,6 @@ html, body {
   opacity: 1;
 }
 
-#title1.hide {
-  opacity: 0;
-}
-
 #upload-container {
   opacity: 0;
   transition: opacity 2s ease-in-out;
@@ -244,11 +238,6 @@ html, body {
   opacity: 1;
 }
 
-#upload-container.hide {
-  opacity: 0;
-}
-
-
 #sidebar.show {
   opacity: 1;
 }
@@ -257,26 +246,32 @@ html, body {
   opacity: 0;
 }
 
-.popup {
+.popup, .popup2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
-  display: none; /* 처음엔 숨김 */
+  background-color: rgba(0, 0, 0, 0.3);
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 999;
-  border-color: #5e5e5e;
 }
 
-.popup-content {
+.popup-content, .popup-content2 {
   background: rgb(255, 255, 255);
   padding: 30px;
   border-radius: 10px;
   width: 400px;
+  max-height: 90%;
+  overflow-y: auto;
   position: relative;
+}
+
+.popup-content2 {
+  width: 450px;
+  height: 400px;
 }
 
 .close-btn {
@@ -287,39 +282,12 @@ html, body {
   cursor: pointer;
 }
 
-#loginTitle {
-  position : fixed;
-  left: 40%;
+#loginTitle, #submit {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
 }
 
-#submit{
-  position: fixed;
-  left: 40%;
-}
-
-#summary{
-  cursor: pointer
-}
-
-.popup2 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
-  display: none; /* 처음엔 숨김 */
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-  border-color: #5e5e5e;
-}
-
-.popup-content2 {
-  background: rgb(255, 255, 255);
-  padding: 30px;
-  border-radius: 10px;
-  width: 450px;
-  height: 400px;
-  position: relative;
+#summary {
+  cursor: pointer;
 }
