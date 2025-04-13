@@ -16,11 +16,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 정적 파일 제공
-app.use('/education', express.static(path.join(__dirname, 'education')));
+app.use(express.static(path.join(__dirname)));
 
 // 메인 HTML 제공
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'education', 'education.html'));
+    // 현재 디렉터리에서 education.html 파일의 절대 경로 생성
+    res.sendFile(path.join(__dirname, 'education.html'));
 });
 
 // 로그인 API
