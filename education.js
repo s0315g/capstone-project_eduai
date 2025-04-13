@@ -158,6 +158,15 @@ window.addEventListener('firebaseInitialized', () => {
       logoutBtn.style.display = 'inline-block';
       loginBtn.style.display = 'none';
       signUpBtn.style.display = 'none';
+      
+      // 5초 후에 환영 메시지를 부드럽게 숨기기
+      setTimeout(() => {
+        welcomeMessage.classList.add('hide');
+        setTimeout(() => {
+          welcomeMessage.style.display = 'none';
+          welcomeMessage.classList.remove('hide');
+        }, 500);
+      }, 5000);
     } else {
       welcomeMessage.style.display = 'none';
       logoutBtn.style.display = 'none';
@@ -175,8 +184,9 @@ window.addEventListener('firebaseInitialized', () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       updateUI(userCredential.user);
       closeModal(loginModal);
+      showToast('로그인 되었습니다!');
     } catch (error) {
-      alert('로그인 실패: ' + error.message);
+      showToast('로그인 실패: ' + error.message);
     }
   });
 
@@ -193,8 +203,9 @@ window.addEventListener('firebaseInitialized', () => {
       });
       updateUI(userCredential.user);
       closeModal(signupModal);
+      showToast('회원가입이 완료되었습니다!');
     } catch (error) {
-      alert('회원가입 실패: ' + error.message);
+      showToast('회원가입 실패: ' + error.message);
     }
   });
 
@@ -202,9 +213,10 @@ window.addEventListener('firebaseInitialized', () => {
   logoutBtn?.addEventListener('click', async () => {
     try {
       await signOut(auth);
+      showToast('로그아웃 되었습니다.');
       updateUI(null);
     } catch (error) {
-      alert('로그아웃 실패: ' + error.message);
+      showToast('로그아웃 실패: ' + error.message);
     }
   });
 
@@ -230,3 +242,68 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// 토스트 메시지 표시 함수
+function showToast(message) {
+  const toastContainer = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+  
+  // 토스트 메시지 표시
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+  });
+  
+  // 3초 후에 토스트 메시지 제거
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 2700);
+}
+
+// 로그인 함수 수정
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  
+  if (username && password) {
+    localStorage.setItem('username', username);
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('signUpBtn').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'block';
+    document.getElementById('popup').style.display = 'none';
+    showToast('로그인 되었습니다!');
+  } else {
+    showToast('아이디와 비밀번호를 입력해주세요.');
+  }
+}
+
+// 로그아웃 함수 수정
+function logout() {
+  localStorage.removeItem('username');
+  document.getElementById('loginBtn').style.display = 'block';
+  document.getElementById('signUpBtn').style.display = 'block';
+  document.getElementById('logoutBtn').style.display = 'none';
+  showToast('로그아웃 되었습니다.');
+}
+
+// 회원가입 함수 수정
+function signup() {
+  const newUsername = document.getElementById('newUsername').value;
+  const newPassword = document.getElementById('newPassword').value;
+  
+  if (newUsername && newPassword) {
+    localStorage.setItem('username', newUsername);
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('signUpBtn').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'block';
+    document.getElementById('popup2').style.display = 'none';
+    showToast('회원가입이 완료되었습니다!');
+  } else {
+    showToast('아이디와 비밀번호를 입력해주세요.');
+  }
+}
