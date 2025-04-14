@@ -9,85 +9,51 @@ const closeBtn2 = document.getElementById('closePopup2');
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 
-setTimeout(() => {
-  document.querySelector('.slide1').classList.remove('remove');
-  document.querySelector('.slide2').classList.add('active');
-}, 700);
+const activateSlide = (fromClass, toClass, delay) => {
+  setTimeout(() => {
+    document.querySelector(fromClass)?.classList.remove('remove');
+    document.querySelector(toClass)?.classList.add('active');
+  }, delay);
+};
 
-setTimeout(() => {
-  document.querySelector('.slide2').classList.remove('remove');
-  slide3.classList.add('active');
-}, 1600);
+activateSlide('.slide1', '.slide2', 700);
+activateSlide('.slide2', '.slide3', 1600);
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  // scroll 관련 로직
+  const scrollContent = document.getElementById("slide3");
+  if (!scrollContent) return;
+
   const titleimg = document.getElementById("title1");
-  const scrollContent = document.getElementById("slide3");
-
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 250) {
-      titleimg.classList.add("show");
-      titleimg.classList.remove("hide");
-    } else {
-      titleimg.classList.remove("show");
-      titleimg.classList.add("hide");
-    }
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
   const imgUpload = document.getElementById("upload-container");
-  const scrollContent = document.getElementById("slide3");
-
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 250) {
-      imgUpload.classList.add("show");
-      imgUpload.classList.remove("hide");
-    } else {
-      imgUpload.classList.remove("show");
-      imgUpload.classList.add("hide");
-    }
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
-  const scrollContent = document.getElementById("slide3");
-  console.log(scrollContent); // null이면 선택 실패
-
-  if (!sidebar || !scrollContent) {
-    console.warn("sidebar 또는 slide3가 존재하지 않음");
-    return;
-  }
+  const arrow = document.getElementById("scrollArrow");
 
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 700) {
-      sidebar.classList.add("show");
-      sidebar.classList.remove("hide");
-    } else {
-      sidebar.classList.remove("show");
-      sidebar.classList.add("hide");
+    if (titleimg) titleimg.classList.toggle("show", scrollTop > 250);
+    if (imgUpload) imgUpload.classList.toggle("show", scrollTop > 250);
+    if (sidebar) sidebar.classList.toggle("show", scrollTop > 700);
+    if (arrow) {
+      if (scrollTop > 10) {
+        arrow.classList.add("show");
+        arrow.classList.remove("hide");
+      } else {
+        arrow.classList.remove("show", "hide");
+      }
     }
+  });
+
+  // 화살표 클릭 스크롤 이동
+  const scrollArrow = document.getElementById('scrollArrow');
+  scrollArrow?.addEventListener('click', () => {
+    const slide3Content = document.getElementById('slide3Content');
+    slide3Content?.scrollIntoView({ behavior: 'smooth' });
   });
 });
 
-
-// 슬라이드 화살표 클릭 시 스크롤 이동
-document.addEventListener('DOMContentLoaded', () => {
-  const scrollArrow = document.getElementById('scrollArrow');
-  if (scrollArrow) {
-    scrollArrow.addEventListener('click', () => {
-      const slide3Content = document.getElementById('slide3Content');
-      slide3Content.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-});
 
 // 사이드바 및 메뉴 클릭 시 스크롤 이동
 const scrollToSection = (id) => {
@@ -265,45 +231,3 @@ function showToast(message) {
   }, 2700);
 }
 
-// 로그인 함수 수정
-function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  
-  if (username && password) {
-    localStorage.setItem('username', username);
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('signUpBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    document.getElementById('popup').style.display = 'none';
-    showToast('로그인 되었습니다!');
-  } else {
-    showToast('아이디와 비밀번호를 입력해주세요.');
-  }
-}
-
-// 로그아웃 함수 수정
-function logout() {
-  localStorage.removeItem('username');
-  document.getElementById('loginBtn').style.display = 'block';
-  document.getElementById('signUpBtn').style.display = 'block';
-  document.getElementById('logoutBtn').style.display = 'none';
-  showToast('로그아웃 되었습니다.');
-}
-
-// 회원가입 함수 수정
-function signup() {
-  const newUsername = document.getElementById('newUsername').value;
-  const newPassword = document.getElementById('newPassword').value;
-  
-  if (newUsername && newPassword) {
-    localStorage.setItem('username', newUsername);
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('signUpBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    document.getElementById('popup2').style.display = 'none';
-    showToast('회원가입이 완료되었습니다!');
-  } else {
-    showToast('아이디와 비밀번호를 입력해주세요.');
-  }
-}
