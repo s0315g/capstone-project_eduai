@@ -307,3 +307,73 @@ function signup() {
     showToast('아이디와 비밀번호를 입력해주세요.');
   }
 }
+
+
+ const chatBox = document.getElementById("chat-box");
+  const userInput = document.getElementById("user-input");
+  const sendBtn = document.getElementById("send-btn");
+  const levelSelect = document.getElementById("level");
+  
+  async function sendMessage() {
+    const level = levelSelect.value;
+    const message = userInput.value.trim();
+    if (!message) return;
+  
+    appendMessage("나", message);
+    userInput.value = "";
+  
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": ""
+        },
+        body: JSON.stringify({
+          model: "gpt-4",
+          messages: [
+            {
+              role: "system",
+              content: `당신은 ${level} 학습자에게 맞춘 친절한 튜터입니다.`
+            },
+            {
+              role: "user",
+              content: message
+            }
+          ]
+        })
+      });
+  
+      const data = await response.json();
+  
+      if (data.choices && data.choices.length > 0) {
+        const reply = data.choices[0].message.content;
+        appendMessage("AI", reply);
+      } else {
+        appendMessage("AI", "응답을 받을 수 없습니다. 다시 시도해주세요.");
+      }
+  
+    } catch (error) {
+      console.error("API 호출 오류:", error);
+      appendMessage("AI", "오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  }
+  
+  function appendMessage(sender, message) {
+    const div = document.createElement("div");
+    div.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    div.classList.add("message");
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+  
+  sendBtn.addEventListener("click", sendMessage);
+  userInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") sendMessage();
+  });
+  
+  const resetBtn = document.getElementById("reset-btn");
+
+resetBtn.addEventListener("click", () => {
+  chatBox.innerHTML = ""; // 전체 대화 초기화
+});

@@ -441,3 +441,42 @@ html, body {
   transition: opacity 0.3s ease;
   font-weight: 500;
 }
+
+.AIChatContainer {
+  margin-top: 50px;
+  margin-left: 30px;
+  background: #fff;
+  border: 2px solid #5e5e5e;
+  border-radius: 20px;
+}
+
+.chat-box {
+  height: 500px; /* 기존보다 더 크게 */
+  margin-right: 150px;
+  margin-left: 10px;
+  border: 2px solid #5e5e5e;
+  padding: 15px;
+  overflow-y: auto;
+  background: #fefefe;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+#botTitle{
+  margin-top: 100px;
+  margin-left: 30px;
+}
+
+#selectLevel{
+  margin: 10px;
+}
+
+.input-row{
+  margin: 10px;
+}
+
+#user-input{
+  width: 80%;
+}
