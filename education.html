@@ -18,8 +18,8 @@
         <nav class="menu">
           <p>main screen</p>
           <p id="summary">picture summary</p>
-          <p id="chat">chat bot</p>
           <p id="analysis">analysis</p>
+          <p id="chat">chat bot</p>
         </nav>
         <div class="auth-buttons">
           <button id="loginBtn">log in</button>
@@ -31,7 +31,7 @@
         <div id="welcome-message" style="display: none;">
           <h2><span id="user-name"></span>님, AI 맞춤형 학습을 시작해보세요!</h2>
         </div>
-       </main>
+    </main>
 
       <div class="slide3-content" id="slide3Content">
         <div class="screenImg">
@@ -42,33 +42,32 @@
               <div class="decoration-line"></div>
             </div>
         </div>
-        <div style="height: 3500px;"  >
+        <div style="height: 3500px;">
+
 
           <div id="explanation" style="height: 300;">
             <img src="explain_image.png">
-
-
-
           </div>
+
+
 
           <div id="sidebar">
             <p id="main">main screen</p>
             <p id="summarySide">picture summary</p>
-            <p id="chatSide">chat bot</p>
             <p id="analysisSide">analysis</p>
+            <p id="chatSide">chat bot</p>
           </div>
-
-          <img src="Picture Summary.png" alt="Picture Summary"  id="title1">
-          <div class="upload-container" id="upload-container">
-          <div class="image-display">
-          <img id="preview" alt="미리보기 이미지">
-          <input type="file" id="photo-upload" class="upload-input" accept="image/*">
-          </div>
-         <div style="margin-top:4px; color:#555; font-size:13px;">
-          오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
-          </div>
-          <p class="summ">요약된 결과 내용</p>
-          </div>
+<img src="Picture Summary.png" id="picTitle">
+<div class="upload-container" id="upload-container">
+  <div class="image-display">
+    <img id="preview" alt="미리보기 이미지">
+    <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+  </div>
+  <div style="margin-top:4px; color:#555; font-size:13px;">
+    오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
+  </div>
+  <p class="summ">요약된 결과 내용</p>
+</div>
 
 
           <img src="My Own AI Chat Bot.png" id="botTitle">
@@ -97,7 +96,9 @@
 
           </div>
 
-                <div id="query">
+         <img src="PatternAnalysis.png" id="QTitle">
+
+        <div id="query">
          <form>
 
               <label for="age">나이:</label>
@@ -132,18 +133,17 @@
               <input type="submit" value="제출하기">
            </form>
 
+          </div> 
+
+        <img src="BottomFlower.png" style="margin-top: 60px; width: 100%;">
+
+
+
+
         </div>
 
 
-
-
-
-        </div>
       </div>
-      </div>
-      
-
-
     </div>
   </div>
 
@@ -243,6 +243,7 @@
     }
 </script>
 
-  <script src="education.js"></script> 
+  <script src="education.js"></script>
+  <script src="auth.js"></script> 
 </body>
 </html>

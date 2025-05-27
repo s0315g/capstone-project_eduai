@@ -429,6 +429,16 @@ html, body {
   margin-left: 30px;
 }
 
+#picTitle{
+  margin-top: 100px;
+  margin-left: 30px;
+}
+
+#QTitle{
+  margin-top: 100px;
+  margin-left: 30px;
+}
+
 #selectLevel{
   margin: 10px;
 }
@@ -443,4 +453,12 @@ html, body {
 
 #explanation{
   margin-top: 150px;
+}
+
+#query{
+  margin-top: 50px;
+  margin-left: 30px;
+  width: 100%;
+  background-color: #cdcabd;
+  border-radius: 20px;
 }
