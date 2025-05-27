@@ -1,7 +1,6 @@
 const input = document.getElementById('photo-upload');
 const imageDisplay = document.querySelector('.image-display');
 const slide3 = document.querySelector(".slide3");
-const arrow = document.getElementById("scrollArrow");
 const popup = document.getElementById('slide4');
 const popup2 = document.getElementById('slide5');
 const closeBtn = document.getElementById('closePopup');
@@ -78,16 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// 슬라이드 화살표 클릭 시 스크롤 이동
-document.addEventListener('DOMContentLoaded', () => {
-  const scrollArrow = document.getElementById('scrollArrow');
-  if (scrollArrow) {
-    scrollArrow.addEventListener('click', () => {
-      const slide3Content = document.getElementById('slide3Content');
-      slide3Content.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-});
 
 // 사이드바 및 메뉴 클릭 시 스크롤 이동
 const scrollToSection = (id) => {
@@ -111,7 +100,7 @@ const preview = document.getElementById('preview');
 
 photoUpload.addEventListener('change', (event) => {
   const count = getUploadCount();
-  const maxUpload = getUploadMaxCount();
+  const maxUpload = 3;
   if (count >= maxUpload) {
     disableUploadInput();
     updateUploadCountMsg();
@@ -129,14 +118,6 @@ photoUpload.addEventListener('change', (event) => {
   }
 });
 
-function updateUploadCountMsg() {
-  const max = getUploadMaxCount();
-  const remaining = max - getUploadCount();
-  const el = document.getElementById("upload-count-remaining");
-  if (el) el.textContent = remaining;
-}
-
-
 // 모달 제어
 const loginModal = document.getElementById('loginModal');
 const signupModal = document.getElementById('signupModal');
@@ -153,21 +134,6 @@ closeButtons.forEach((btn) => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const arrow = document.getElementById("scrollArrow");
-  const scrollContent = document.getElementById("slide3");
-
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 10) {
-      arrow.classList.add("show");
-      arrow.classList.remove("hide");
-    } else {
-      arrow.classList.remove("show", "hide");
-    }
-  });
-});
 
 // 토스트 메시지 표시 함수
 function showToast(message) {
@@ -275,68 +241,20 @@ function disableSendBtn() {
   sendBtn.textContent = "Limit!";
 }
 
-sendBtn.addEventListener("click", () => {
+
+  sendBtn.addEventListener("click", () => {
   const count = getSendCount();
-  const maxCount = getSendMaxCount();
-  if (count >= maxCount) {
-    showToast(`하루 ${maxCount}회까지만 질문할 수 있습니다.`);
+  if (count >= 5) {
+    showToast("하루 5회까지만 질문할 수 있습니다.");
     disableSendBtn();
-    updateSendCountMsg();
     return;
   }
   sendMessage();
   setSendCount(count + 1);
-  updateSendCountMsg();
-  if (count + 1 >= maxCount) {
+  if (count + 1 >= 5) {
     disableSendBtn();
   }
 });
-
-function isUserLoggedIn() {
-  // Firebase 기준
-  return window.firebaseAuth && window.firebaseAuth.currentUser;
-  // Express API + 토큰 방식이라면 아래처럼 구현
-  // return !!localStorage.getItem("access_token");
-}
-
-// 질문/업로드 최대 횟수
-function getSendMaxCount() {
-  return isUserLoggedIn() ? 10 : 5;
-}
-function getUploadMaxCount() {
-  return isUserLoggedIn() ? 10 : 3;
-}
-
-// 잔여횟수 메시지 업데이트
-function updateSendCountMsg() {
-  const max = getSendMaxCount();
-  let remaining = max - getSendCount();
-  if (max >= 99999) remaining = '∞';
-  else if (remaining < 0) remaining = 0; // 음수 방지
-  const el = document.getElementById("send-count-remaining");
-  if (el) el.textContent = remaining;
-  const parent = el?.parentElement;
-  if (parent) {
-    parent.innerHTML = `오늘의 질문 가능 횟수: <span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}
-    <button id="unlock-limit-btn" style="margin-left:8px;">제한 해제</button>`;
-  }
-  if (max >= 99999 || remaining > 0) {
-    enableSendBtn();
-  } else {
-    disableSendBtn();
-  }
-  // unlock-limit-btn 이벤트 재연결
-  document.getElementById('unlock-limit-btn')?.addEventListener('click', () => {
-    if (confirm('제한을 해제하려면 결제/구독이 필요합니다. (데모: 확인 누르면 해제됨)')) {
-      isLimitUnlocked = true;
-      localStorage.setItem('isLimitUnlocked', '1');
-      updateSendCountMsg();
-      showToast('질문 횟수 제한이 해제되었습니다!');
-    }
-  });
-}
-
-
 
 // 페이지 로드시 바로 체크
 window.addEventListener("DOMContentLoaded", () => {
@@ -387,20 +305,8 @@ function disableUploadInput() {
 
 // 업로드 잔여횟수 표시
 function updateUploadCountMsg() {
-  const max = getUploadMaxCount();
-  let remaining = max - getUploadCount();
-  if (max >= 99999) remaining = '∞';
-  else if (remaining < 0) remaining = 0;
+  const maxUpload = 3;
+  const remaining = maxUpload - getUploadCount();
   const el = document.getElementById("upload-count-remaining");
   if (el) el.textContent = remaining;
-  const parent = el?.parentElement;
-  if (parent) {
-    parent.innerHTML = `오늘의 업로드 가능 횟수: <span id="upload-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}`;
-  }
-  // ... (버튼 enable/disable 등)
-}
-
-function enableSendBtn() {
-  sendBtn.disabled = false;
-  sendBtn.textContent = "SEND";
 }

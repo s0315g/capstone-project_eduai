@@ -18,8 +18,8 @@
         <nav class="menu">
           <p>main screen</p>
           <p id="summary">picture summary</p>
-          <p id="analysis">analysis</p>
           <p id="chat">chat bot</p>
+          <p id="analysis">analysis</p>
         </nav>
         <div class="auth-buttons">
           <button id="loginBtn">log in</button>
@@ -31,7 +31,7 @@
         <div id="welcome-message" style="display: none;">
           <h2><span id="user-name"></span>님, AI 맞춤형 학습을 시작해보세요!</h2>
         </div>
-    </main>
+       </main>
 
       <div class="slide3-content" id="slide3Content">
         <div class="screenImg">
@@ -42,24 +42,33 @@
               <div class="decoration-line"></div>
             </div>
         </div>
-        <div style="height: 1500px;">
+        <div style="height: 3500px;"  >
+
+          <div id="explanation" style="height: 300;">
+            <img src="explain_image.png">
+
+
+
+          </div>
+
           <div id="sidebar">
             <p id="main">main screen</p>
             <p id="summarySide">picture summary</p>
-            <p id="analysisSide">analysis</p>
             <p id="chatSide">chat bot</p>
+            <p id="analysisSide">analysis</p>
           </div>
 
-<div class="upload-container" id="upload-container">
-  <div class="image-display">
-    <img id="preview" alt="미리보기 이미지">
-    <input type="file" id="photo-upload" class="upload-input" accept="image/*">
-  </div>
-  <div style="margin-top:4px; color:#555; font-size:13px;">
-    오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
-  </div>
-  <p class="summ">요약된 결과 내용</p>
-</div>
+          <img src="Picture Summary.png" alt="Picture Summary"  id="title1">
+          <div class="upload-container" id="upload-container">
+          <div class="image-display">
+          <img id="preview" alt="미리보기 이미지">
+          <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+          </div>
+         <div style="margin-top:4px; color:#555; font-size:13px;">
+          오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
+          </div>
+          <p class="summ">요약된 결과 내용</p>
+          </div>
 
 
           <img src="My Own AI Chat Bot.png" id="botTitle">
@@ -88,11 +97,53 @@
 
           </div>
 
+                <div id="query">
+         <form>
+
+              <label for="age">나이:</label>
+             <input type="number" id="age" name="age"><br><br>
+
+             <label for="study_time">하루 평균 공부 시간은 얼마인가요?</label>
+             <input type="text" id="study_time" name="study_time"><br><br>
+
+             <label for="preferred_method">선호하는 학습 방법은 무엇인가요?</label>
+             <select id="preferred_method" name="preferred_method">
+             <option value="visual">시각적 학습 (그림, 다이어그램)</option>
+             <option value="auditory">청각적 학습 (듣기, 설명)</option>
+             <option value="reading_writing">읽기/쓰기 학습</option>
+              <option value="kinesthetic">운동감각적 학습 (직접 해보기)</option>
+             </select><br><br>
+
+              <label for="difficulties">공부하면서 겪는 어려움은 무엇인가요?</label><br>
+             <textarea id="difficulties" name="difficulties" rows="4" cols="50"></textarea><br><br>
+
+             <label for="goals">당신의 학습 목표는 무엇인가요?</label><br>
+             <textarea id="goals" name="goals" rows="4" cols="50"></textarea><br><br>
+
+             <label for="concentration">집중이 잘 되는 시간대는 언제인가요?</label>
+             <input type="text" id="concentration" name="concentration"><br><br>
+
+             <label for="break_method">휴식은 어떻게 취하나요?</label>
+             <input type="text" id="break_method" name="break_method"><br><br>
+
+              <label for="memo_habit">메모 또는 정리 습관이 있나요?</label>
+             <input type="text" id="memo_habit" name="memo_habit"><br><br>
+
+              <input type="submit" value="제출하기">
+           </form>
+
+        </div>
+
+
 
 
 
         </div>
       </div>
+      </div>
+      
+
+
     </div>
   </div>
 
@@ -192,7 +243,6 @@
     }
 </script>
 
-  <script src="education.js"></script>
-  <script src="auth.js"></script> 
+  <script src="education.js"></script> 
 </body>
 </html>
