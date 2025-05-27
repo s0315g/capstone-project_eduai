@@ -109,15 +109,25 @@ document.getElementById('chatSide')?.addEventListener('click', () => scrollToSec
 const photoUpload = document.getElementById('photo-upload');
 const preview = document.getElementById('preview');
 
-if (photoUpload && preview) {
-  photoUpload.addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      preview.src = URL.createObjectURL(file);
-      preview.style.display = 'block';
+photoUpload.addEventListener('change', (event) => {
+  const count = getUploadCount();
+  const maxUpload = 3;
+  if (count >= maxUpload) {
+    disableUploadInput();
+    updateUploadCountMsg();
+    return;
+  }
+  const file = event.target.files[0];
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
+    setUploadCount(count + 1);
+    updateUploadCountMsg();
+    if (count + 1 >= maxUpload) {
+      disableUploadInput();
     }
-  });
-}
+  }
+});
 
 // 모달 제어
 const loginModal = document.getElementById('loginModal');
@@ -134,98 +144,6 @@ closeButtons.forEach((btn) => {
     closeModal(signupModal);
   });
 });
-
-// Firebase 기능
-window.addEventListener('firebaseInitialized', () => {
-  const auth = window.firebaseAuth;
-  const {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-    signOut
-  } = window.firebaseAuthFunctions;
-
-  const loginForm = document.getElementById('loginForm');
-  const signupForm = document.getElementById('signupForm');
-  const welcomeMessage = document.getElementById('welcome-message');
-  const userNameSpan = document.getElementById('user-name');
-  const logoutBtn = document.getElementById('logoutBtn');
-
-  const updateUI = (user) => {
-    if (user) {
-      userNameSpan.textContent = user.displayName || user.email;
-      welcomeMessage.style.display = 'block';
-      logoutBtn.style.display = 'inline-block';
-      loginBtn.style.display = 'none';
-      signUpBtn.style.display = 'none';
-      
-      // 5초 후에 환영 메시지를 부드럽게 숨기기
-      setTimeout(() => {
-        welcomeMessage.classList.add('hide');
-        setTimeout(() => {
-          welcomeMessage.style.display = 'none';
-          welcomeMessage.classList.remove('hide');
-        }, 500);
-      }, 5000);
-    } else {
-      welcomeMessage.style.display = 'none';
-      logoutBtn.style.display = 'none';
-      loginBtn.style.display = 'inline-block';
-      signUpBtn.style.display = 'inline-block';
-    }
-  };
-
-  // 로그인
-  loginForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      updateUI(userCredential.user);
-      closeModal(loginModal);
-      showToast('로그인 되었습니다!');
-    } catch (error) {
-      showToast('로그인 실패: ' + error.message);
-    }
-  });
-
-  // 회원가입
-  signupForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const nickname = document.getElementById('signup-name').value;
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCredential.user, {
-        displayName: nickname,
-      });
-      updateUI(userCredential.user);
-      closeModal(signupModal);
-      showToast('회원가입이 완료되었습니다!');
-    } catch (error) {
-      showToast('회원가입 실패: ' + error.message);
-    }
-  });
-
-  // 로그아웃
-  logoutBtn?.addEventListener('click', async () => {
-    try {
-      await signOut(auth);
-      showToast('로그아웃 되었습니다.');
-      updateUI(null);
-    } catch (error) {
-      showToast('로그아웃 실패: ' + error.message);
-    }
-  });
-
-  // 인증 상태 감지
-  auth.onAuthStateChanged((user) => {
-    updateUI(user);
-  });
-});
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const arrow = document.getElementById("scrollArrow");
@@ -265,51 +183,7 @@ function showToast(message) {
   }, 2700);
 }
 
-// 로그인 함수 수정
-function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  
-  if (username && password) {
-    localStorage.setItem('username', username);
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('signUpBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    document.getElementById('popup').style.display = 'none';
-    showToast('로그인 되었습니다!');
-  } else {
-    showToast('아이디와 비밀번호를 입력해주세요.');
-  }
-}
-
-// 로그아웃 함수 수정
-function logout() {
-  localStorage.removeItem('username');
-  document.getElementById('loginBtn').style.display = 'block';
-  document.getElementById('signUpBtn').style.display = 'block';
-  document.getElementById('logoutBtn').style.display = 'none';
-  showToast('로그아웃 되었습니다.');
-}
-
-// 회원가입 함수 수정
-function signup() {
-  const newUsername = document.getElementById('newUsername').value;
-  const newPassword = document.getElementById('newPassword').value;
-  
-  if (newUsername && newPassword) {
-    localStorage.setItem('username', newUsername);
-    document.getElementById('loginBtn').style.display = 'none';
-    document.getElementById('signUpBtn').style.display = 'none';
-    document.getElementById('logoutBtn').style.display = 'block';
-    document.getElementById('popup2').style.display = 'none';
-    showToast('회원가입이 완료되었습니다!');
-  } else {
-    showToast('아이디와 비밀번호를 입력해주세요.');
-  }
-}
-
-
- const chatBox = document.getElementById("chat-box");
+  const chatBox = document.getElementById("chat-box");
   const userInput = document.getElementById("user-input");
   const sendBtn = document.getElementById("send-btn");
   const levelSelect = document.getElementById("level");
@@ -366,14 +240,99 @@ function signup() {
     chatBox.appendChild(div);
     chatBox.scrollTop = chatBox.scrollHeight;
   }
-  
-  sendBtn.addEventListener("click", sendMessage);
-  userInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
-  });
+
+// 오늘 날짜 yyyy-mm-dd
+function getTodayString() {
+  const today = new Date();
+  return today.toISOString().slice(0,10);
+}
+
+// 누른 횟수 가져오기
+function getSendCount() {
+  const data = JSON.parse(localStorage.getItem("sendCountData") || '{}');
+  const today = getTodayString();
+  if (data.date !== today) return 0; // 날짜 바뀌면 0회
+  return data.count || 0;
+}
+
+// 횟수 저장
+function setSendCount(count) {
+  const today = getTodayString();
+  localStorage.setItem("sendCountData", JSON.stringify({ date: today, count }));
+}
+
+// SEND 버튼 비활성화
+function disableSendBtn() {
+  sendBtn.disabled = true;
+  sendBtn.textContent = "Limit!";
+}
+
+
+  sendBtn.addEventListener("click", () => {
+  const count = getSendCount();
+  if (count >= 5) {
+    showToast("하루 5회까지만 질문할 수 있습니다.");
+    disableSendBtn();
+    return;
+  }
+  sendMessage();
+  setSendCount(count + 1);
+  if (count + 1 >= 5) {
+    disableSendBtn();
+  }
+});
+
+// 페이지 로드시 바로 체크
+window.addEventListener("DOMContentLoaded", () => {
+  const count = getSendCount();
+  const uploadCount = getUploadCount();
+  if (count >= 5) {
+    disableSendBtn();
+  }
+  if (uploadCount >= 3) {
+    disableUploadInput();
+  }
+  updateUploadCountMsg();
+});
+
   
   const resetBtn = document.getElementById("reset-btn");
 
 resetBtn.addEventListener("click", () => {
   chatBox.innerHTML = ""; // 전체 대화 초기화
 });
+
+// 오늘 날짜
+function getTodayString() {
+  const today = new Date();
+  return today.toISOString().slice(0,10);
+}
+
+// 업로드 카운트 가져오기
+function getUploadCount() {
+  const data = JSON.parse(localStorage.getItem("uploadCountData") || '{}');
+  const today = getTodayString();
+  if (data.date !== today) return 0;
+  return data.count || 0;
+}
+
+// 업로드 카운트 저장
+function setUploadCount(count) {
+  const today = getTodayString();
+  localStorage.setItem("uploadCountData", JSON.stringify({ date: today, count }));
+}
+
+// 업로드 input 비활성화
+function disableUploadInput() {
+  photoUpload.disabled = true;
+  photoUpload.style.opacity = "0.5";
+  showToast("업로드 제한 횟수(3회)를 초과했습니다.");
+}
+
+// 업로드 잔여횟수 표시
+function updateUploadCountMsg() {
+  const maxUpload = 3;
+  const remaining = maxUpload - getUploadCount();
+  const el = document.getElementById("upload-count-remaining");
+  if (el) el.textContent = remaining;
+}
