@@ -50,14 +50,17 @@
             <p id="chatSide">chat bot</p>
           </div>
 
-          <img src="Picture Summary.png" alt="Picture Summary"  id="title1">
-          <div class="upload-container" id="upload-container">
-            <div class="image-display">
-              <img id="preview" alt="미리보기 이미지">
-              <input type="file" id="photo-upload" class="upload-input" accept="image/*">
-            </div>
-            <p class="summ">요약된 결과 내용</p>
-          </div>
+<div class="upload-container" id="upload-container">
+  <div class="image-display">
+    <img id="preview" alt="미리보기 이미지">
+    <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+  </div>
+  <div style="margin-top:4px; color:#555; font-size:13px;">
+    오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
+  </div>
+  <p class="summ">요약된 결과 내용</p>
+</div>
+
 
           <img src="My Own AI Chat Bot.png" id="botTitle">
 
@@ -79,6 +82,10 @@
               <button id="send-btn">SEND</button>
               <button id="reset-btn">CLEAR</button>
             </div>
+            <div id="send-count-msg" style="margin-bottom:6px; color:#444; font-size:14px;">
+            오늘의 질문 가능 횟수: <span id="send-count-remaining">5</span>/5
+            </div>
+
           </div>
 
 
@@ -185,6 +192,7 @@
     }
 </script>
 
-  <script src="education.js"></script> 
+  <script src="education.js"></script>
+  <script src="auth.js"></script> 
 </body>
 </html>
