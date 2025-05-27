@@ -36,7 +36,10 @@ window.addEventListener('firebaseInitialized', () => {
       loginBtn.style.display = 'inline-block';
       signUpBtn.style.display = 'inline-block';
     }
+    updateSendCountMsg();
+  updateUploadCountMsg();
   };
+
   
 document.addEventListener("DOMContentLoaded", () => {
   const arrow = document.getElementById("scrollArrow");
