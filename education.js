@@ -322,6 +322,7 @@ function updateSendCountMsg() {
   const max = getSendMaxCount();
   let remaining = max - getSendCount();
   if (max >= 99999) remaining = '∞'; // 무제한 표시
+  else if (remaining < 0) remaining = 0;
   const el = document.getElementById("send-count-remaining");
   if (el) el.textContent = remaining;
   const parent = el?.parentElement;
