@@ -495,3 +495,37 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollToElement('QTitle'); // PatternAnalysis 이미지 위로 이동
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 스크롤 이동 함수 (메뉴/사이드바 클릭용은 유지)
+  const scrollToElement = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // 메뉴 클릭 이벤트
+  document.getElementById('summary')?.addEventListener('click', () => scrollToElement('picTitle'));
+  document.getElementById('chat')?.addEventListener('click', () => scrollToElement('botTitle'));
+  document.getElementById('analysis')?.addEventListener('click', () => scrollToElement('QTitle'));
+
+  // 사이드바 클릭 이벤트
+  document.getElementById('main')?.addEventListener('click', () => scrollToElement('Group3'));
+  document.getElementById('summarySide')?.addEventListener('click', () => scrollToElement('picTitle'));
+  document.getElementById('chatSide')?.addEventListener('click', () => scrollToElement('botTitle'));
+  document.getElementById('analysisSide')?.addEventListener('click', () => scrollToElement('QTitle'));
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target); // 한 번만 나타나게
+      }
+    });
+  }, {
+    threshold: 0.5 // 30% 보이면 감지
+  });
+
+  document.querySelectorAll('.observe-target').forEach(el => observer.observe(el));
+});
