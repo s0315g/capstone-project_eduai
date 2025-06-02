@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 700) {
+    if (scrollTop > 600) {
       sidebar.classList.add("show");
       sidebar.classList.remove("hide");
     } else {
@@ -275,16 +275,6 @@ function disableSendBtn() {
   sendBtn.textContent = "Limit!";
 }
 
-function getSendMaxCount() {
-  if (isLimitUnlocked) return 99999; // 제한 해제시 사실상 무제한
-  return isUserLoggedIn() ? 10 : 5;
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  isLimitUnlocked = localStorage.getItem('isLimitUnlocked') === '1';
-  updateSendCountMsg();
-});
-
 sendBtn.addEventListener("click", () => {
   const count = getSendCount();
   const maxCount = getSendMaxCount();
@@ -321,35 +311,30 @@ function getUploadMaxCount() {
 function updateSendCountMsg() {
   const max = getSendMaxCount();
   let remaining = max - getSendCount();
-  if (max >= 99999) remaining = '∞'; // 무제한 표시
-  else if (remaining < 0) remaining = 0;
+  if (max >= 99999) remaining = '∞';
+  else if (remaining < 0) remaining = 0; // 음수 방지
   const el = document.getElementById("send-count-remaining");
   if (el) el.textContent = remaining;
   const parent = el?.parentElement;
   if (parent) {
-    parent.innerHTML = `오늘의 질문 가능 횟수: <span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max} 
+    parent.innerHTML = `오늘의 질문 가능 횟수: <span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}
     <button id="unlock-limit-btn" style="margin-left:8px;">제한 해제</button>`;
   }
-  // 버튼 활성화/비활성화도 다시
   if (max >= 99999 || remaining > 0) {
     enableSendBtn();
   } else {
     disableSendBtn();
   }
-  // unlock 버튼 이벤트도 다시 달기
-document.getElementById('unlock-limit-btn')?.addEventListener('click', () => {
-  if (confirm('제한을 해제하려면 결제/구독이 필요합니다. (데모: 확인 누르면 해제됨)')) {
-    isLimitUnlocked = true;
-    localStorage.setItem('isLimitUnlocked', '1');
-    setSendCount(0);      // 질문 카운트 리셋!
-    setUploadCount(0);    // 업로드 카운트도 리셋! (만약 업로드도 제한해제라면)
-    updateSendCountMsg();
-    updateUploadCountMsg();
-    showToast('질문/업로드 횟수 제한이 해제되었습니다!');
-  }
-});
+  // unlock-limit-btn 이벤트 재연결
+  document.getElementById('unlock-limit-btn')?.addEventListener('click', () => {
+    if (confirm('제한을 해제하려면 결제/구독이 필요합니다. (데모: 확인 누르면 해제됨)')) {
+      isLimitUnlocked = true;
+      localStorage.setItem('isLimitUnlocked', '1');
+      updateSendCountMsg();
+      showToast('질문 횟수 제한이 해제되었습니다!');
+    }
+  });
 }
-
 
 
 
@@ -419,3 +404,94 @@ function enableSendBtn() {
   sendBtn.disabled = false;
   sendBtn.textContent = "SEND";
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const explain = document.getElementById("explain_image");
+  const scrollContent = document.getElementById("slide3");
+  console.log(scrollContent); // null이면 선택 실패
+
+  if (!sidebar || !scrollContent) {
+    console.warn("sidebar 또는 slide3가 존재하지 않음");
+    return;
+  }
+
+  scrollContent.addEventListener("scroll", () => {
+    const scrollTop = scrollContent.scrollTop;
+
+    if (scrollTop > 300) {
+      explain.classList.add("show");
+      explain.classList.remove("hide");
+    } else {
+      explain.classList.remove("show");
+      explain.classList.add("hide");
+    }
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollToElement = (elementId) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // 메뉴 클릭 이벤트 등록
+  document.getElementById('summary')?.addEventListener('click', () => {
+    scrollToElement('picTitle'); // picture summary 영역
+  });
+
+  document.getElementById('analysis')?.addEventListener('click', () => {
+    scrollToElement('QTitle'); // pattern analysis 영역
+  });
+
+  document.getElementById('chat')?.addEventListener('click', () => {
+    scrollToElement('botTitle'); // chat bot 영역
+  });
+
+  document.getElementById('main')?.addEventListener('click', () => {
+    scrollToElement('Group3'); // main screen 이미지 영역
+  });
+
+  // 사이드바에도 같은 이벤트 등록 (옵션)
+  document.getElementById('summarySide')?.addEventListener('click', () => {
+    scrollToElement('picTitle');
+  });
+
+  document.getElementById('analysisSide')?.addEventListener('click', () => {
+    scrollToElement('QTitle');
+  });
+
+  document.getElementById('chatSide')?.addEventListener('click', () => {
+    scrollToElement('botTitle');
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const scrollToElement = (elementId) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // 사이드바 클릭 이벤트 등록
+  document.getElementById('main')?.addEventListener('click', () => {
+    scrollToElement('Group3'); // 메인 이미지 위치
+  });
+
+  document.getElementById('summarySide')?.addEventListener('click', () => {
+    scrollToElement('picTitle'); // picture summary 이미지 위로 이동
+  });
+
+  document.getElementById('chatSide')?.addEventListener('click', () => {
+    scrollToElement('botTitle'); // chat bot 이미지 위로 이동
+  });
+
+  document.getElementById('analysisSide')?.addEventListener('click', () => {
+    scrollToElement('QTitle'); // PatternAnalysis 이미지 위로 이동
+  });
+});

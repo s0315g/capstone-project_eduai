@@ -69,7 +69,7 @@ html, body {
 
 .menu {
   display: flex;
-  gap: 150px;
+  gap: 40%;
 }
 
 .menu p {
@@ -142,9 +142,9 @@ html, body {
 
 #sidebar {
   position: fixed;
-  top: 150px;
+  top: 20%;
   right: 30px;
-  width: 120px;
+  width: 8%;
   height: 400px;
   background-color: #efe6cc;
   padding: 20px;
@@ -164,6 +164,7 @@ html, body {
 
 .upload-container {
   background-color: #cdcabd;
+  height: 15%;
   display: flex;
   align-items: center;
   border-radius: 20px;
@@ -173,11 +174,12 @@ html, body {
 }
 
 .image-display {
-  width: 600px;
-  height: 450px;
+  width: 40%;
+  height:  80%;
   background-color: black;
   display:flex;
   flex-direction: column;
+  border-radius: 20px;
 }
 
 .image-display img {
@@ -470,4 +472,13 @@ html, body {
   background-color: #fffdf6;
   border-radius: 20px;
 
+}
+
+#explain_image.show{
+  width: 100%;
+  opacity: 1;
+}
+
+#explain_image.hide{
+  opacity: 0;
 }
