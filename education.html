@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="education.css">
 </head>
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+
+
   <div id="toast-container"></div>
   
   <div class="container">
@@ -93,9 +97,13 @@
             <div id="send-count-msg" style="margin-bottom:6px; color:#444; font-size:14px;">
             오늘의 질문 가능 횟수: <span id="send-count-remaining">5</span>/5
             </div>
+            <label for="goal_rate">오늘 목표 달성률(0~100):</label>
+<input type="number" id="goal_rate" name="goal_rate" min="0" max="100"><br><br><div id="growth-chart"></div>
+<div id="report-area" style="margin:18px 0 32px 0; text-align:center;"></div>
+<div id="growth-chart" style="max-width:500px;margin:24px auto ; text-align:center;"></div>
+<button id="reset-analysis" style="display:block; margin:20px auto 0 auto;">분석 데이터 초기화</button>
 
           </div>
-
          <img src="PatternAnalysis.png" id="QTitle" class="observe-target">
 
         <div id="query">
@@ -136,13 +144,7 @@
           </div> 
 
         <img src="BottomFlower.png" style="margin-top: 60px; width: 100%;">
-
-
-
-
         </div>
-
-
       </div>
     </div>
   </div>
@@ -184,6 +186,36 @@
     <button id="logoutBtn" style="display: none;">Logout</button>
   </div>
   
+<!-- 결제 모달 -->
+<div id="pay-modal" class="modal hide">
+  <div class="modal-content">
+    <h2>제한 해제 패키지</h2>
+    <hr style="margin:12px 0;">
+    <div id="pay-options">
+      <label>
+        <input type="radio" name="payOption" value="upload" checked>
+        <b>사진 업로드 무제한</b> <span class="price">₩2,000 임시</span>
+      </label><br>
+      <label>
+        <input type="radio" name="payOption" value="ask">
+        <b>질문 횟수 무제한</b> <span class="price">₩3,000 임시</span>
+      </label><br>
+      <label>
+        <input type="radio" name="payOption" value="all">
+        <b>전체 무제한 패키지</b> <span class="price">₩4,500 임시</span>
+      </label>
+      <hr style="margin:12px 0;">
+      <label>
+        <input type="radio" name="payOption" value="reset">
+        <b style="color:#f23c3c">제한 모드로 되돌리기 (테스트 용)</b>
+      </label>
+    </div>
+    <div class="modal-buttons">
+      <button id="pay-confirm" class="btn-main">확인</button>
+      <button id="pay-cancel" class="btn-cancel">취소</button>
+    </div>
+  </div>
+</div>
 
 
   <script type="module">

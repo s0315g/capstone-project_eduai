@@ -496,3 +496,24 @@ html, body {
   opacity: 1;
   transform: translateY(0);
 }
+
+.modal {
+  display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.35); z-index: 9999; justify-content: center; align-items: center;
+}
+.modal-content {
+  background: #fff; border-radius: 16px; padding: 28px 24px 18px 24px; max-width: 340px; width: 92%;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.19);
+}
+.modal-content h2 { margin-top: 0; }
+.modal-buttons { margin-top: 24px; text-align: right; }
+.btn-main {
+  background: #F5DEB3; color: #fff; border: none; padding: 9px 20px; border-radius: 6px;
+  font-weight: 600; margin-right: 8px; cursor: pointer;
+}
+.btn-cancel {
+  background: #eee; color: #555; border: none; padding: 9px 20px; border-radius: 6px; cursor: pointer;
+}
+.price { color: red; margin-left: 6px; font-size: 0.95em; }
+.modal.show { display: flex; }
+

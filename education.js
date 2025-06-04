@@ -23,7 +23,10 @@ setTimeout(() => {
 document.addEventListener("DOMContentLoaded", () => {
   const titleimg = document.getElementById("title1");
   const scrollContent = document.getElementById("slide3");
-
+  drawGrowthChart();
+  showReport();
+  drawPatternAnalysisCharts();
+  drawDifficultiesWordCloud();
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
 
@@ -209,7 +212,7 @@ function showToast(message) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": ""
+          "Authorization": "Bearer"
         },
         body: JSON.stringify({
           model: "gpt-4",
@@ -301,11 +304,14 @@ function isUserLoggedIn() {
 
 // 질문/업로드 최대 횟수
 function getSendMaxCount() {
+  if (localStorage.getItem('askLimitUnlocked') === '1') return 99999;
   return isUserLoggedIn() ? 10 : 5;
 }
 function getUploadMaxCount() {
+  if (localStorage.getItem('uploadLimitUnlocked') === '1') return 99999;
   return isUserLoggedIn() ? 10 : 3;
 }
+
 
 // 잔여횟수 메시지 업데이트
 function updateSendCountMsg() {
@@ -318,7 +324,7 @@ function updateSendCountMsg() {
   const parent = el?.parentElement;
   if (parent) {
     parent.innerHTML = `오늘의 질문 가능 횟수: <span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}
-    <button id="unlock-limit-btn" style="margin-left:8px;">제한 해제</button>`;
+    <button id="unlock-limit-btn" style="margin-left:8px;">프리미엄 패키지</button>`;
   }
   if (max >= 99999 || remaining > 0) {
     enableSendBtn();
@@ -326,14 +332,7 @@ function updateSendCountMsg() {
     disableSendBtn();
   }
   // unlock-limit-btn 이벤트 재연결
-  document.getElementById('unlock-limit-btn')?.addEventListener('click', () => {
-    if (confirm('제한을 해제하려면 결제/구독이 필요합니다. (데모: 확인 누르면 해제됨)')) {
-      isLimitUnlocked = true;
-      localStorage.setItem('isLimitUnlocked', '1');
-      updateSendCountMsg();
-      showToast('질문 횟수 제한이 해제되었습니다!');
-    }
-  });
+
 }
 
 
@@ -528,4 +527,162 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelectorAll('.observe-target').forEach(el => observer.observe(el));
+});
+
+// 제한 해제 버튼 클릭시 모달 열기
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'unlock-limit-btn') {
+    document.getElementById('pay-modal').classList.add('show');
+    document.getElementById('pay-modal').classList.remove('hide');
+  }
+});
+
+// 모달 결제/취소 버튼
+document.getElementById('pay-cancel').addEventListener('click', () => {
+  document.getElementById('pay-modal').classList.remove('show');
+  document.getElementById('pay-modal').classList.add('hide');
+});
+
+document.getElementById('pay-confirm').addEventListener('click', () => {
+  const option = document.querySelector('input[name="payOption"]:checked').value;
+  document.getElementById('pay-modal').classList.remove('show');
+  document.getElementById('pay-modal').classList.add('hide');
+
+  if (option === 'upload') {
+    localStorage.setItem('uploadLimitUnlocked', '1');
+    showToast('사진 업로드 제한이 해제되었습니다!');
+  } else if (option === 'ask') {
+    localStorage.setItem('askLimitUnlocked', '1');
+    showToast('질문 횟수 제한이 해제되었습니다!');
+  } else if (option === 'all') {
+    localStorage.setItem('uploadLimitUnlocked', '1');
+    localStorage.setItem('askLimitUnlocked', '1');
+    showToast('전체 제한이 해제되었습니다!');
+  } else if (option === 'reset') {
+    resetLimits();
+  }
+  updateSendCountMsg();
+  updateUploadCountMsg();
+});
+
+function resetLimits() {
+  localStorage.removeItem('uploadLimitUnlocked');
+  localStorage.removeItem('askLimitUnlocked');
+  updateSendCountMsg();
+  updateUploadCountMsg();
+  showToast('무제한 모드 해제');
+}
+
+// 예시: 하루 분석 저장
+function saveDailyAnalysis(studyHour, goalAchieveRate) {
+  // studyHour: 오늘 공부시간 (시간/분)
+  // goalAchieveRate: 목표 달성률(0~100)
+  const today = getTodayString();
+  let log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
+  log.push({
+    date: today,
+    studyHour: Number(studyHour),
+    goalAchieveRate: Number(goalAchieveRate)
+  });
+  // 최근 14개만 저장 (2주치)
+  if (log.length > 14) log = log.slice(log.length - 14);
+  localStorage.setItem("analysisLog", JSON.stringify(log));
+}
+
+function drawGrowthChart() {
+  const ctxId = "growthChartCanvas";
+  let chartDiv = document.getElementById('growth-chart');
+  chartDiv.innerHTML = `<canvas id="${ctxId}" width="340" height="340"></canvas>`;
+  const ctx = document.getElementById(ctxId).getContext('2d');
+  const log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
+  if (log.length === 0) {
+    chartDiv.innerHTML += "<div style='text-align:center;margin-top:1em;'>분석 차트 공간</div>";
+    return;
+  }
+  // 최근 7일 평균값
+  const last7 = log.slice(-7);
+  const avgStudy = (last7.reduce((sum, x) => sum + x.studyHour, 0) / last7.length).toFixed(1);
+  const avgGoal = (last7.reduce((sum, x) => sum + x.goalAchieveRate, 0) / last7.length).toFixed(1);
+
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['공부시간(시/분)', '목표달성률(%)'],
+      datasets: [{
+        data: [avgStudy, avgGoal],
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: false,
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    }
+  });
+}
+
+
+document.getElementById('reset-analysis').addEventListener('click', function() {
+  if (confirm('정말로 모든 분석 데이터를 초기화할까요?')) {
+    localStorage.removeItem('analysisLog');
+    drawGrowthChart();
+    showReport();
+    alert('분석 데이터가 초기화되었습니다!');
+  }
+});
+
+function showReport() {
+  const log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
+  if (log.length === 0) {
+    document.getElementById('report-area').innerText = '';
+    return;
+  }
+  // 최근 7일 데이터
+  const last7 = log.slice(-7);
+  const avgStudy = (last7.reduce((sum, x) => sum + x.studyHour, 0) / last7.length).toFixed(1);
+  const avgGoal = (last7.reduce((sum, x) => sum + x.goalAchieveRate, 0) / last7.length).toFixed(1);
+  let tip = "";
+  if (avgGoal > 90) tip = "목표 달성률이 매우 높아요! 꾸준함을 유지해보세요.";
+  else if (avgGoal > 60) tip = "목표에 근접하고 있어요! 목표 관리 습관을 만들면 더 좋아질 수 있습니다.";
+  else tip = "목표 달성률이 낮아요. 실천 가능한 작은 목표를 먼저 잡아보세요!";
+
+  document.getElementById('report-area').innerHTML = `
+    <b>최근 7일 평균 공부시간</b> : ${avgStudy} 시간<br>
+    <b>최근 7일 평균 목표 달성률</b> : ${avgGoal}%<br>
+    <b>AI 학습 도우미 코멘트:</b> ${tip}
+  `;
+}
+document.getElementById('query-contents').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const studyHour = document.getElementById('study_time').value || 0;
+  const goal = document.getElementById('goal_rate').value || 0;
+    const age = document.getElementById('age').value;
+  const preferred = document.getElementById('preferred_method').value;
+  const difficulties = document.getElementById('difficulties').value;
+  const goals = document.getElementById('goals').value;
+  const concentration = document.getElementById('concentration').value;
+  const breakMethod = document.getElementById('break_method').value;
+  const memoHabit = document.getElementById('memo_habit').value;
+
+  let log = JSON.parse(localStorage.getItem("patternAnalysisLog") || "[]");
+  log.push({
+    date: getTodayString(),
+    age,
+    studyHour: Number(studyHour),
+    preferred,
+    difficulties,
+    goals,
+    concentration,
+    breakMethod,
+    memoHabit
+  });
+  // 최근 14개만 저장
+  if (log.length > 14) log = log.slice(log.length - 14);
+  localStorage.setItem("patternAnalysisLog", JSON.stringify(log));
+  saveDailyAnalysis(studyHour, goal);
+  drawGrowthChart();
+  showReport();
+  document.getElementById('query-contents').reset();
+  alert('분석이 저장되었습니다!');
 });
