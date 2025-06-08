@@ -40,45 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const imgUpload = document.getElementById("upload-container");
-  const scrollContent = document.getElementById("slide3");
 
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
 
-    if (scrollTop > 250) {
-      imgUpload.classList.add("show");
-      imgUpload.classList.remove("hide");
-    } else {
-      imgUpload.classList.remove("show");
-      imgUpload.classList.add("hide");
-    }
-  });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const sidebar = document.getElementById("sidebar");
-  const scrollContent = document.getElementById("slide3");
-  console.log(scrollContent); // null이면 선택 실패
-
-  if (!sidebar || !scrollContent) {
-    console.warn("sidebar 또는 slide3가 존재하지 않음");
-    return;
-  }
-
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 600) {
-      sidebar.classList.add("show");
-      sidebar.classList.remove("hide");
-    } else {
-      sidebar.classList.remove("show");
-      sidebar.classList.add("hide");
-    }
-  });
-});
 
 
 // 슬라이드 화살표 클릭 시 스크롤 이동
@@ -102,11 +65,23 @@ const scrollToSection = (id) => {
 
 document.getElementById('summary')?.addEventListener('click', () => scrollToSection('title1'));
 document.getElementById('summarySide')?.addEventListener('click', () => scrollToSection('title1'));
-document.getElementById('main')?.addEventListener('click', () => scrollToSection('Group3'));
+document.getElementById('main')?.addEventListener('click', () => scrollToSection('sliderTrack'));
 document.getElementById('analysis')?.addEventListener('click', () => scrollToSection('title1'));
 document.getElementById('analysisSide')?.addEventListener('click', () => scrollToSection('title1'));
 document.getElementById('chat')?.addEventListener('click', () => scrollToSection('title1'));
 document.getElementById('chatSide')?.addEventListener('click', () => scrollToSection('title1'));
+
+ document.getElementById('hover4')?.addEventListener('click', () => {
+    scrollToSection('picTitle');
+  });
+
+  document.getElementById('hover5')?.addEventListener('click', () => {
+    scrollToSection('botTitle');
+  });
+
+  document.getElementById('hover6')?.addEventListener('click', () => {
+    scrollToSection('QTitle');
+  });
 
 // 이미지 업로드 미리보기
 const photoUpload = document.getElementById('photo-upload');
@@ -410,10 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const scrollContent = document.getElementById("slide3");
   console.log(scrollContent); // null이면 선택 실패
 
-  if (!sidebar || !scrollContent) {
-    console.warn("sidebar 또는 slide3가 존재하지 않음");
-    return;
-  }
 
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
@@ -685,4 +656,84 @@ document.getElementById('query-contents').addEventListener('submit', function(e)
   showReport();
   document.getElementById('query-contents').reset();
   alert('분석이 저장되었습니다!');
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const group3 = document.querySelector(".group3");
+  const bulb = document.getElementById("bulb");
+
+  group3.addEventListener("mouseenter", () => {
+    bulb.classList.add("shake");
+
+    // 애니메이션이 끝나면 클래스 제거 (재사용 가능하도록)
+    bulb.addEventListener("animationend", () => {
+      bulb.classList.remove("shake");
+    }, { once: true });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const trigger = document.getElementById("Group3");
+  const bulb = document.getElementById("bulb");
+
+  // 마우스를 올렸을 때 반복 애니메이션 시작
+  trigger.addEventListener("mouseenter", () => {
+    bulb.classList.add("shake");
+  });
+
+  // 마우스가 벗어났을 때 애니메이션 제거
+  trigger.addEventListener("mouseleave", () => {
+    bulb.classList.remove("shake");
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("sliderTrack");
+  const slides = document.querySelectorAll(".slide-img");
+  const dotsContainer = document.getElementById("dots");
+  const wrapper = document.querySelector(".slider-wrapper");
+
+  let currentIndex = 0;
+  const totalSlides = slides.length;
+
+  // 도트 생성
+  for (let i = 0; i < totalSlides; i++) {
+    const dot = document.createElement("span");
+    if (i === 0) dot.classList.add("active");
+    dotsContainer.appendChild(dot);
+  }
+
+  const dots = dotsContainer.querySelectorAll("span");
+
+  function goToSlide(index) {
+    const slideWidth = slides[0].offsetWidth + 30; // 30px gap
+    const wrapperWidth = wrapper.offsetWidth;
+    const centerOffset = (wrapperWidth - slideWidth) / 2;
+
+    currentIndex = index;
+    track.style.transform = `translateX(${-index * slideWidth + centerOffset}px)`;
+
+    dots.forEach(dot => dot.classList.remove("active"));
+    dots[index].classList.add("active");
+
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[index].classList.add("active");
+  }
+
+  goToSlide(0);
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    goToSlide(currentIndex);
+  }, 5000);
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      goToSlide(index);
+    });
+  });
+
+  // 💡 브라우저 크기 바뀌면 다시 위치 재계산
+  window.addEventListener("resize", () => goToSlide(currentIndex));
 });

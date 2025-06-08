@@ -5,6 +5,8 @@
   <title>AI Teacher Intro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="education.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icon.png" type="image/png" />
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,62 +21,95 @@
 
     <div class="slide slide3" id="slide3">
       <header class="main-header">
-        <nav class="menu">
-          <p>main screen</p>
-          <p id="summary">picture summary</p>
-          <p id="chat">chat bot</p>
-          <p id="analysis">analysis</p>
-        </nav>
-        <div class="auth-buttons">
-          <button id="loginBtn">log in</button>
-          <button id="signUpBtn">sign up</button>
-          <button id="logoutBtn" style="display: none;">log out</button>
-        </div>
-      </header>
-      <main>
-        <div id="welcome-message" style="display: none;">
-          <h2><span id="user-name"></span>님, AI 맞춤형 학습을 시작해보세요!</h2>
-        </div>
-    </main>
-
-      <div class="slide3-content" id="slide3Content">
-        <div class="screenImg">
-          <img src="Group3.png" alt="Group 3" id="Group3">
-            <div class="scroll-arrow" id="scrollArrow">
-              <div class="arrow-head"></div>
-              <div class="arrow-line"></div>
-              <div class="decoration-line"></div>
-            </div>
-        </div>
-        <div style="height: 3500px;">
-
-
-          <div id="explanation" style="height: 300;">
-            <img src="explain_image.png" id="explain_image">
-          </div>
-
-
-
-          <div id="sidebar">
-            <p id="main">main screen</p>
-            <p id="summarySide">picture summary</p>
-            <p id="chatSide">chat bot</p>
-            <p id="analysisSide">analysis</p>
-          </div>
-<img src="Picture Summary.png" id="picTitle" class="observe-target">
-<div class="upload-container" id="upload-container">
-  <div class="image-display">
-    <img id="preview" alt="미리보기 이미지">
-    <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+<nav class="menu">
+  <div class="menu-title">
+    <img src="icon.png" class="icon">
   </div>
-  <div style="margin-top:4px; color:#555; font-size:13px;">
-    오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
-  </div>
-  <p class="summ">요약된 결과 내용</p>
-</div>
+  <p>main screen</p>
+  <p id="summary">picture summary</p>
+  <p id="chat">chat bot</p>
+  <p id="analysis">analysis</p>
+</nav>
+
+              <div class="auth-buttons">
+                <button id="loginBtn">log in</button>
+                <button id="signUpBtn">sign up</button>
+                <button id="logoutBtn" style="display: none;">log out</button>
+              </div>
+            </header>
+            <main>
+              <div id="welcome-message" style="display: none;">
+                <h2><span id="user-name"></span>님, AI 맞춤형 학습을 시작해보세요!</h2>
+              </div>
+          </main>
+
+            <div class="slide3-content" id="slide3Content">
+              <div class="screenImg">
+                <div class="slider-wrapper">
+                  <div class="slider-track" id="sliderTrack">
+                    <img src="Group3.png" class="slide-img active" alt="group3">
+                    <img src="Group4.png" class="slide-img" alt="group4">
+                    <img src="Group5.png" class="slide-img" alt="group5">
+                    <img src="Group6.png" class="slide-img" alt="group6">
+                  <img src="Group7.png" class="slide-img" alt="group7">
+                  </div>
+
+                  <div class="dots " id="dots"></div>
+                </div>
+              </div>
+              <div style="height: 3500px;"> 
+                    <div class="line-container">
+                      <div class="white-horizontal-line"></div>
+                      <div class="white-vertical-line"></div>
+                    </div>
+                          <div class="hover-group-wrapper">
+                            <div class="scroll-banner-wrapper">
+                              <div class="scroll-banner-text">
+                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •
+                              </div>
+                            </div>
+
+                            <div id="hover-img">
+                              <img src="Group4_h.png" class="hover-Group" alt="group4" id="hover4">
+                              <img src="Group5_h.png" class="hover-Group" alt="group5" id="hover5">
+                              <img src="Group6_h.png" class="hover-Group" alt="group6" id="hover6">
+                            </div>
+                                                        <div class="hover-group-wrapper">
+                            <div class="scroll-banner-wrapper">
+                              <div class="scroll-banner-text">
+                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •
+                              </div>
+                            </div>
+                          </div>
 
 
-          <img src="My Own AI Chat Bot.png" id="botTitle" class="observe-target">
+
+
+                <div id="picTitle" class="observe-target">Picture Summary</div>
+                <div class="upload-container">
+                  <div class="upload-row">
+                    <div class="image-preview-column">
+                      <div class="image-display">
+                        <img id="preview" alt="미리보기 이미지">
+                      </div>
+                      <!-- 이미지 아래에 업로드 버튼 & 업로드 가능 횟수 -->
+                        <p class="up-text">사진을 업로드 하세요      <label for="photo-upload" class="image-button"></label></p>
+                      <input type="file" id="photo-upload" class="upload-input" accept="image/*">
+                      <div class="upload-info">
+                        오늘의 업로드 가능 횟수: <span id="upload-count-remaining">3</span>/3
+                      </div>
+                    </div>
+
+                    <div class="summary-column">
+                      <p class="summ">요약된 결과 내용</p>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+          <div id="botTitle" class="observe-target"> AI Chat Bot</div>
 
           <div class="AIChatContainer">
         
@@ -91,23 +126,24 @@
         
             <div class="input-row">
               <input type="text" id="user-input" placeholder="질문을 입력하세요..." />
-              <button id="send-btn">SEND</button>
-              <button id="reset-btn">CLEAR</button>
+                      <button id="send-btn">
+                        <img src="icon.png" alt="Send" class="icon-btn">
+                      </button>
+
+                      <button id="reset-btn">
+                        <img src="delete_icon.png" alt="Clear" class="icon-btn">
+                      </button>
+
             </div>
             <div id="send-count-msg" style="margin-bottom:6px; color:#444; font-size:14px;">
             오늘의 질문 가능 횟수: <span id="send-count-remaining">5</span>/5
             </div>
-            <label for="goal_rate">오늘 목표 달성률(0~100):</label>
-<input type="number" id="goal_rate" name="goal_rate" min="0" max="100"><br><br><div id="growth-chart"></div>
-<div id="report-area" style="margin:18px 0 32px 0; text-align:center;"></div>
-<div id="growth-chart" style="max-width:500px;margin:24px auto ; text-align:center;"></div>
-<button id="reset-analysis" style="display:block; margin:20px auto 0 auto;">분석 데이터 초기화</button>
-
           </div>
-         <img src="PatternAnalysis.png" id="QTitle" class="observe-target">
 
-        <div id="query">
-         <form id="query-contents">
+         <div id="QTitle" class="observe-target">Analysis</div>
+
+          <div id="query">
+           <form id="query-contents">
 
               <label for="age">나이:</label>
              <input type="number" id="age" name="age"><br><br>
@@ -138,12 +174,27 @@
               <label for="memo_habit">메모 또는 정리 습관이 있나요?</label>
              <input type="text" id="memo_habit" name="memo_habit"><br><br>
 
-              <input type="submit" value="제출하기">
+                <button type="submit">
+                  <img src="icon.png" alt="제출하기" class="icon-btn-analyze">
+                  <p>click해서 제출하기</p>
+                </button>
+
            </form>
 
           </div> 
 
-        <img src="BottomFlower.png" style="margin-top: 60px; width: 100%;">
+           <div id="graph">
+              
+            <label for="goal_rate">오늘 목표 달성률(0~100):</label>
+                <input type="number" id="goal_rate" name="goal_rate" min="0" max="100"><br><br><div id="growth-chart"></div>
+                <div id="report-area" style="margin:18px 0 32px 0; text-align:center;"></div>
+                <div id="growth-chart" style="max-width:500px;margin:24px auto ; text-align:center;"></div>
+                <button id="reset-analysis" style="display:block; margin:20px auto 0 auto;">분석 데이터 초기화</button>
+
+
+          </div>
+
+
         </div>
       </div>
     </div>
