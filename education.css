@@ -517,8 +517,8 @@ html, body {
 }
 .slider-wrapper {
   position: relative;
-  width: 90%;
-  max-width: 1000px;
+  max-width: max-content;
+  max-height: max-content;
   margin: 60px auto;
   overflow: hidden;
   box-sizing: border-box;
@@ -532,8 +532,8 @@ html, body {
 
 .slide-img {
   width: 100%;
-  max-width: 600px;
-  height: 400px;
+  max-width: 55%;
+  height: auto;
   object-fit: cover;
   border-radius: 20px;
   flex-shrink: 0;
