@@ -101,7 +101,7 @@ html, body {
   border-radius: 8px;
   font-size: 15px;
   font-weight: 0.1;
-  color: #333;
+  color: #555;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -125,6 +125,7 @@ html, body {
 
 .slide3-content {
   margin-top: 30px;
+  
 }
 
 .screenImg {
@@ -154,7 +155,7 @@ html, body {
 
 .image-display {
   display: inline-block; /* 콘텐츠 크기만큼 맞추기 */
-  background-color: black;
+  background-color: #555;
   border-radius: 20px;
   overflow: hidden; /* 둥근 테두리에 맞게 이미지 잘림 */
   max-width: 100%; /* 부모 너비 초과 방지 */
@@ -169,7 +170,9 @@ html, body {
 
 .summ {
   display: inline-block;
-  max-width: 300px;
+  width: 100%;
+  height: auto;
+  background-color: #fffdf6 ;
 }
 
 
@@ -200,7 +203,7 @@ html, body {
 }
 
 .popup-content, .popup-content2 {
-  background: white;
+  background: fffdf6;
   padding: 32px;
   border-radius: 16px;
   width: 400px;
@@ -217,7 +220,7 @@ html, body {
 .popup-content h2, .popup-content2 h2 {
   text-align: center;
   margin-bottom: 32px;
-  color: #333;
+  color: #555;
   font-size: 24px;
   font-weight: 700;
 }
@@ -230,7 +233,7 @@ html, body {
 
 .login-form label {
   font-size: 14px;
-  color: #666;
+  color: #555;
   margin-bottom: 8px;
   display: block;
 }
@@ -254,7 +257,7 @@ html, body {
   width: 100%;
   padding: 14px;
   background-color: #F5DEB3;
-  color: #333;
+  color: #555;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -291,7 +294,7 @@ html, body {
 }
 
 .close-btn:hover {
-  color: #333;
+  color: #555;
 }
 
 #loginTitle, #submit {
@@ -320,7 +323,7 @@ html, body {
 }
 
 #welcome-message h2 {
-  color: #333;
+  color: #555;
   font-size: 15px;
   font-weight: 500;
   margin: 0;
@@ -329,7 +332,7 @@ html, body {
 
 #welcome-message h2 span {
   font-weight: 700;
-  color: #333;
+  color: #555;
 }
 
 #welcome-message.hide {
@@ -382,7 +385,7 @@ html, body {
   border: 2px solid #5e5e5e;
   padding: 15px;
   overflow-y: auto;
-  background: #fefefe;
+  background: #fffdf6;
   border-radius: 20px;
   margin-bottom: 15px;
   font-size: 16px;
@@ -486,18 +489,6 @@ html, body {
 .modal.show { display: flex; }
 
 
-.scroll-arrow {
-  position: absolute;
-  bottom: 60px; /* 이미지 하단에서 약간 위로 */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 21px solid transparent;
-  border-right: 21px solid transparent;
-  border-top: 30px solid black; /* 검은색 삼각형 */
-  z-index: 40;
-}
 
 .bulb {
   width: 200px;
@@ -517,8 +508,8 @@ html, body {
 }
 .slider-wrapper {
   position: relative;
-  max-width: max-content;
-  max-height: max-content;
+  max-width: 100%;
+  max-height: auto;
   margin: 60px auto;
   overflow: hidden;
   box-sizing: border-box;
@@ -596,6 +587,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 20px;
 }
 
 .image-display img {
@@ -645,18 +637,22 @@ html, body {
 
 .upload-info {
   margin-top: 6px;
-  font-size: 13px;
+  font-size: 12px;
   color: #555;
 }
 
 .summary-column {
   flex: 1;
-  max-width: 400px;
+  max-width: 70%;
+  height: auto;
+    border: 2px solid #555;
+  margin: 20px;
+  border-radius: 20px;
 }
 
 .summ {
-  font-size: 15px;
-  color: #333;
+  font-size: 13px;
+  color: #555;
 }
 
 #hover-img {
@@ -665,7 +661,7 @@ html, body {
   align-items: flex-start; /* 위쪽 정렬 (또는 center) */
   gap: 40px;               /* 이미지 사이 간격 */
   flex-wrap: wrap;         /* 줄 바꿈 허용 */
-  margin-top: 30px;
+  margin-top: 400px;
   padding: 0 6%;
 }
 
@@ -748,11 +744,29 @@ html, body {
   width: 40px;
 }
 
-#graph{
-  margin-top: 50px;
-  margin-left: 30px;
-  margin-right: 30px;
-  background-color: #cdcabd;
+#bottom-text { 
+  bottom: 0;              /* 하단에 위치 */
+  left: 0;                /* 왼쪽 정렬 시작 */
+  width: 100%;            /* 전체 너비 사용 */
+  padding-left: 70%;      /* 오른쪽으로 밀기 */
+  background-color: #d6d3cb;
+  height: 40px;
+  padding-top: 12px;
+  box-sizing: border-box; /* 패딩 포함하여 높이 계산 */
+  z-index: 1000;          /* 다른 요소보다 위에 보이게 함 */
+ margin-top: 10%;
+}
+
+#unlock-limit-btn{
+  background-color:#d0bda6;
   border-radius: 20px;
-  height: auto;
+  height: 23px;
+  margin-left: 30px;
+}
+
+
+
+#question{
+  margin-top: 20px;
+  padding-bottom: 20px;
 }

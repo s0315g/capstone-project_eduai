@@ -298,8 +298,8 @@ function updateSendCountMsg() {
   if (el) el.textContent = remaining;
   const parent = el?.parentElement;
   if (parent) {
-    parent.innerHTML = `일일 질문 가능 횟수: <span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}
-    <button id="unlock-limit-btn" style="margin-left:8px;">프리미엄 결제</button>`;
+    parent.innerHTML = `<div id="question"> &nbsp;&nbsp;&nbsp; 일일 질문 가능 횟수:<span id="send-count-remaining">${remaining}</span>/${max >= 99999 ? '∞' : max}
+       <button id="unlock-limit-btn" style="margin-left:8px;"> Premium </button></div>`  ;
   }
   if (max >= 99999 || remaining > 0) {
     enableSendBtn();
