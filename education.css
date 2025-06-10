@@ -439,7 +439,6 @@ html, body {
   margin-top: 50px;
   margin-left: 30px;
   padding: 10px;
-  width: 100%;
   background-color: #cdcabd;
   border-radius: 20px;
 }
@@ -697,8 +696,8 @@ html, body {
 .scroll-banner-text {
   display: inline-block;
   white-space: nowrap;
-  font-size: 14px; /* ✔ 작게 */
-  font-weight: 500;
+  font-size: 12px; /* ✔ 작게 */
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.4);
   animation: curveScroll 20s linear infinite;
 
