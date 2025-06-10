@@ -25,7 +25,7 @@
   <div class="menu-title">
     <img src="icon.png" class="icon">
   </div>
-  <p>main screen</p>
+  <p id="main">main screen</p>
   <p id="summary">picture summary</p>
   <p id="chat">chat bot</p>
   <p id="analysis">analysis</p>
@@ -61,7 +61,7 @@
                           <div class="hover-group-wrapper">
                             <div class="scroll-banner-wrapper">
                               <div class="scroll-banner-text">
-                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • 
+                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • Click to Scroll •
                               </div>
                             </div>
 
@@ -73,7 +73,7 @@
                                                         <div class="hover-group-wrapper">
                             <div class="scroll-banner-wrapper">
                               <div class="scroll-banner-text">
-                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • 
+                                Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll • Click to Scroll •Click to Scroll • Click to Scroll • Click to Scroll •
                               </div>
                             </div>
                           </div>
@@ -263,7 +263,7 @@
 </div>
 
 
-  <script type="module">
+<script type="module">
     // Firebase SDK 초기화
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
@@ -298,7 +298,6 @@
     window.dispatchEvent(new Event('firebaseInitialized'));
 </script>
 
-<!-- 모달 함수 -->
 <script>
     function openModal(modal) {
         if (modal) {

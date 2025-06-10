@@ -20,30 +20,6 @@ setTimeout(() => {
 }, 1600);
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const titleimg = document.getElementById("title1");
-  const scrollContent = document.getElementById("slide3");
-  drawGrowthChart();
-  showReport();
-  drawPatternAnalysisCharts();
-  drawDifficultiesWordCloud();
-  scrollContent.addEventListener("scroll", () => {
-    const scrollTop = scrollContent.scrollTop;
-
-    if (scrollTop > 250) {
-      titleimg.classList.add("show");
-      titleimg.classList.remove("hide");
-    } else {
-      titleimg.classList.remove("show");
-      titleimg.classList.add("hide");
-    }
-  });
-});
-
-
-
-
-
 // 슬라이드 화살표 클릭 시 스크롤 이동
 document.addEventListener('DOMContentLoaded', () => {
   const scrollArrow = document.getElementById('scrollArrow');
@@ -422,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('main')?.addEventListener('click', () => {
-    scrollToElement('Group3'); // main screen 이미지 영역
+    scrollToElement('slide3Content'); // main screen 이미지 영역
   });
 
   // 사이드바에도 같은 이벤트 등록 (옵션)
