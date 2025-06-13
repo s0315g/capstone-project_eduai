@@ -96,12 +96,15 @@
                       </div>
                     </div>
 
-                    <div class="summary-column">
-                      <p class="summ">요약된 결과 내용</p>
-                    </div>
                   </div>
                 </div>
 
+                <div id="summ-container">
+                    <div class="summary-column">
+                    <p class="summ">요약된 결과 내용</p>
+                    <div class="summary-text" id="summary-text"></div>
+                    </div>
+                </div>
 
 
 
@@ -136,48 +139,56 @@
             </div>
           </div>
 
-         <div id="QTitle" class="observe-target">Analysis</div>
+            <div id="QTitle" class="observe-target">Analysis</div>
+<div id="query">
+  <form id="query-contents" style="display: flex; flex-direction: row; align-items: flex-start; gap: 30px;">
 
-          <div id="query">
-           <form id="query-contents">
+    <!-- 왼쪽: 입력 폼 영역 -->
+    <div style="flex: 1; max-width: 500px;">
+      <label for="age">나이:</label>
+      <input type="number" id="age" name="age"><br><br>
 
-              <label for="age">나이:</label>
-             <input type="number" id="age" name="age"><br><br>
+      <label for="study_time">하루 평균 공부 시간은 얼마인가요?</label>
+      <input type="text" id="study_time" name="study_time"><br><br>
 
-             <label for="study_time">하루 평균 공부 시간은 얼마인가요?</label>
-             <input type="text" id="study_time" name="study_time"><br><br>
+      <label for="preferred_method">선호하는 학습 방법은 무엇인가요?</label>
+      <select id="preferred_method" name="preferred_method">
+        <option value="visual">시각적 학습 (그림, 다이어그램)</option>
+        <option value="auditory">청각적 학습 (듣기, 설명)</option>
+        <option value="reading_writing">읽기/쓰기 학습</option>
+        <option value="kinesthetic">운동감각적 학습 (직접 해보기)</option>
+      </select><br><br>
 
-             <label for="preferred_method">선호하는 학습 방법은 무엇인가요?</label>
-             <select id="preferred_method" name="preferred_method">
-             <option value="visual">시각적 학습 (그림, 다이어그램)</option>
-             <option value="auditory">청각적 학습 (듣기, 설명)</option>
-             <option value="reading_writing">읽기/쓰기 학습</option>
-              <option value="kinesthetic">운동감각적 학습 (직접 해보기)</option>
-             </select><br><br>
+      <label for="difficulties">공부하면서 겪는 어려움은 무엇인가요?</label><br>
+      <textarea id="difficulties" name="difficulties" rows="4" cols="50"></textarea><br><br>
 
-              <label for="difficulties">공부하면서 겪는 어려움은 무엇인가요?</label><br>
-             <textarea id="difficulties" name="difficulties" rows="4" cols="50"></textarea><br><br>
+      <label for="goals">당신의 학습 목표는 무엇인가요?</label><br>
+      <textarea id="goals" name="goals" rows="4" cols="50"></textarea><br><br>
 
-             <label for="goals">당신의 학습 목표는 무엇인가요?</label><br>
-             <textarea id="goals" name="goals" rows="4" cols="50"></textarea><br><br>
+      <label for="concentration">집중이 잘 되는 시간대는 언제인가요?</label>
+      <input type="text" id="concentration" name="concentration"><br><br>
 
-             <label for="concentration">집중이 잘 되는 시간대는 언제인가요?</label>
-             <input type="text" id="concentration" name="concentration"><br><br>
+      <label for="break_method">휴식은 어떻게 취하나요?</label>
+      <input type="text" id="break_method" name="break_method"><br><br>
 
-             <label for="break_method">휴식은 어떻게 취하나요?</label>
-             <input type="text" id="break_method" name="break_method"><br><br>
+      <label for="memo_habit">메모 또는 정리 습관이 있나요?</label>
+      <input type="text" id="memo_habit" name="memo_habit"><br><br>
 
-              <label for="memo_habit">메모 또는 정리 습관이 있나요?</label>
-             <input type="text" id="memo_habit" name="memo_habit"><br><br>
+      <button type="submit" style="border-radius: 20px; background-color:#d0bda6; padding: 10px;">
+        <img src="icon.png" alt="제출하기" class="icon-btn-analyze" style="height: 24px; vertical-align: middle;">
+        <span>submit!</span>
+      </button>
+    </div>
 
-                <button type="submit" style="border-radius: 20px; background-color:#d0bda6; padding: 10px;">
-                  <img src="icon.png" alt="제출하기" class="icon-btn-analyze">
-                  <p>submit!</p>
-                </button>
+    <!-- 오른쪽: 분석 결과 영역 -->
+    <div id="analyze-result" style="flex: 1; min-width: 300px; background: #f6f4ee; border-radius: 10px; padding: 15px; font-size: 16px; color: #333;">
+      <!-- 분석 결과가 여기에 표시됩니다 -->
+       <p class="summ">학습법 분석 결과 내용</p>
+    </div>
 
-           </form>
+  </form>
+</div>
 
-          </div> 
 
 
 
@@ -318,6 +329,141 @@
         }
     }
 </script>
+<script>
+// ⌨️ 타자 효과 함수
+function typeWriter(text, element, delay = 25, callback) {
+    element.innerHTML = '<span class="cursor">|</span>';
+    let i = 0;
+
+    const interval = setInterval(() => {
+        const current = element.innerHTML.replace('<span class="cursor">|</span>', '');
+        element.innerHTML = current + text.charAt(i) + '<span class="cursor">|</span>';
+        i++;
+        if (i === text.length) {
+            clearInterval(interval);
+            element.querySelector('.cursor').classList.add('blink');
+            if (callback) callback();
+        }
+    }, delay);
+}
+
+document.getElementById("photo-upload").addEventListener("change", async function () {
+    const fileInput = this;
+    const file = fileInput.files[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    // 미리보기 표시
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        document.getElementById("preview").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+
+    // 요약 영역 초기화 및 "분석 중..." 타자 효과
+    const summaryColumn = document.querySelector(".summary-column");
+    summaryColumn.innerHTML = `
+        <p class="summ">요약된 결과 내용</p>
+        <div class="summary-text" id="summary-text"><span class="cursor">|</span></div>
+    `;
+    const summaryTextDiv = document.getElementById("summary-text");
+
+    // 1. "분석 중입니다..." 타자 효과 출력
+    typeWriter("⏳ 분석 중입니다...", summaryTextDiv, 80);
+
+    try {
+        const response = await fetch("http://localhost:3000/ocr-summary", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.summary) {
+            const cleaned = data.summary.replace(/^\s+/, '');
+
+            // 2. 결과는 "분석 중입니다..." 출력 후 1초 뒤 타자 효과로 출력
+            setTimeout(() => {
+                typeWriter(cleaned, summaryTextDiv, 25);
+            }, 1200);
+        } else {
+            summaryTextDiv.innerHTML = `<span style="color: red;">요약 결과가 없습니다.</span>`;
+        }
+    } catch (err) {
+        console.error(err);
+        summaryTextDiv.innerHTML = `<span style="color: red;">요약 중 오류가 발생했습니다.</span>`;
+    }
+});
+</script>
+
+
+<script>
+document.getElementById("query-contents").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const resultDiv = document.getElementById("analyze-result");
+
+    // ⌨️ 타자치는 효과 함수
+    function typeWriter(text, element, delay = 100) {
+        element.innerHTML = '';
+        let i = 0;
+        const interval = setInterval(() => {
+            element.innerHTML += text.charAt(i);
+            i++;
+            if (i === text.length) clearInterval(interval);
+        }, delay);
+    }
+
+    // 1. "분석 중입니다..." 타자치는 효과로 출력
+    typeWriter("⏳ 분석 중입니다...", resultDiv, 100);
+
+    const data = {
+        age: form.age.value,
+        study_time: form.study_time.value,
+        preferred_method: form.preferred_method.value,
+        difficulties: form.difficulties.value,
+        goals: form.goals.value,
+        concentration: form.concentration.value,
+        break_method: form.break_method.value,
+        memo_habit: form.memo_habit.value
+    };
+
+    try {
+        const res = await fetch("http://localhost:3000/study-analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        // 결과 도착 후 출력 대기 (타자 완료 후 대체)
+        setTimeout(() => {
+            if (result.result) {
+              const cleaned = result.result.replace(/^\s+/, '');
+                resultDiv.innerHTML = `
+                    <h3 style="margin-bottom: 10px;">📘 학습법 분석 결과</h3>
+                    <div style="white-space: pre-wrap; background-color: #f4f4f4; padding: 10px; border-radius: 10px; line-height: 1.6;">
+                        ${result.result}
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `<span style="color: red;">❌ 학습법 분석 실패: ${result.error || '알 수 없는 오류'}</span>`;
+            }
+        }, 2000); // 타자 효과 끝날 때쯤 대체
+    } catch (err) {
+        console.error("연결 실패:", err);
+        setTimeout(() => {
+            resultDiv.innerHTML = `<span style="color: red;">⚠️ 서버 오류 또는 네트워크 문제입니다.</span>`;
+        }, 2000);
+    }
+});
+</script>
+
 
   <script src="education.js"></script>
   <script src="auth.js"></script> 

@@ -7,6 +7,7 @@
 }
 
 
+
 html, body {
   height: 100%;
 }
@@ -144,8 +145,21 @@ html, body {
 
 .upload-container {
   background-color: #cdcabd;
+  height: 50%;
+  width: 40%;
+  display: inline-block;
+  align-items: center;
+  border-radius: 20px;
+  margin-top: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#summ-container {
+  background-color: #cdcabd;
   height: 40%;
-  display: flex;
+  width: 40%;
+  display: inline-block;
   align-items: center;
   border-radius: 20px;
   margin-top: 50px;
@@ -170,9 +184,17 @@ html, body {
 
 .summ {
   display: inline-block;
-  width: 100%;
-  height: auto;
-  background-color: #fffdf6 ;
+  background-color: #ffffffdd; /* 반투명 흰색 */
+  padding: 8px 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  margin-bottom: 12px;
+  text-align: center;
+  justify-content: center;
+  
 }
 
 
@@ -203,7 +225,7 @@ html, body {
 }
 
 .popup-content, .popup-content2 {
-  background: fffdf6;
+  background: #fffdf6;
   padding: 32px;
   border-radius: 16px;
   width: 400px;
@@ -641,13 +663,37 @@ html, body {
 }
 
 .summary-column {
-  flex: 1;
-  max-width: 70%;
-  height: auto;
-    border: 2px solid #555;
-  margin: 20px;
-  border-radius: 20px;
+  background-color: #ffffff; /* 흰색 배경 */
+  margin-left: 3%;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  padding: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 1000px;
+  display: inline-block;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  width: 90%;
+  justify-content: center;
+  align-items: center; /* 내부 요소도 수평 중앙 */
+  text-align: center;
 }
+
+.summary-column:hover {
+  transform: translateY(-4px); /* 살짝 떠오르는 효과 */
+}
+
+.summary-text {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  white-space: pre-wrap;
+  text-align: left;
+  width: 100%;
+}
+
 
 .summ {
   font-size: 13px;

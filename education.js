@@ -19,7 +19,6 @@ setTimeout(() => {
   slide3.classList.add('active');
 }, 1600);
 
-
 // 슬라이드 화살표 클릭 시 스크롤 이동
 document.addEventListener('DOMContentLoaded', () => {
   const scrollArrow = document.getElementById('scrollArrow');
@@ -89,7 +88,6 @@ function updateUploadCountMsg() {
   const el = document.getElementById("upload-count-remaining");
   if (el) el.textContent = remaining;
 }
-
 
 // 모달 제어
 const loginModal = document.getElementById('loginModal');
@@ -263,7 +261,6 @@ function getUploadMaxCount() {
   return isUserLoggedIn() ? 10 : 3;
 }
 
-
 // 잔여횟수 메시지 업데이트
 function updateSendCountMsg() {
   const max = getSendMaxCount();
@@ -286,8 +283,6 @@ function updateSendCountMsg() {
 
 }
 
-
-
 // 페이지 로드시 바로 체크
 window.addEventListener("DOMContentLoaded", () => {
   const count = getSendCount();
@@ -301,9 +296,7 @@ window.addEventListener("DOMContentLoaded", () => {
   updateUploadCountMsg();
 });
 
-  
-  const resetBtn = document.getElementById("reset-btn");
-
+const resetBtn = document.getElementById("reset-btn");
 resetBtn.addEventListener("click", () => {
   chatBox.innerHTML = ""; // 전체 대화 초기화
 });
@@ -329,11 +322,11 @@ function setUploadCount(count) {
 }
 
 // 업로드 input 비활성화
-function disableUploadInput() {
-  photoUpload.disabled = true;
-  photoUpload.style.opacity = "0.5";
-  showToast("업로드 제한 횟수(3회)를 초과했습니다.");
-}
+// function disableUploadInput() {
+//   photoUpload.disabled = true;
+//   photoUpload.style.opacity = "0.5";
+//   showToast("업로드 제한 횟수(3회)를 초과했습니다.");
+// }
 
 // 업로드 잔여횟수 표시
 function updateUploadCountMsg() {
@@ -355,12 +348,10 @@ function enableSendBtn() {
   sendBtn.textContent = "SEND";
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const explain = document.getElementById("explain_image");
   const scrollContent = document.getElementById("slide3");
   console.log(scrollContent); // null이면 선택 실패
-
 
   scrollContent.addEventListener("scroll", () => {
     const scrollTop = scrollContent.scrollTop;
@@ -374,7 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
 
 document.addEventListener('DOMContentLoaded', () => {
   const scrollToElement = (elementId) => {
@@ -414,7 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollToElement('botTitle');
   });
 });
-
 
 document.addEventListener('DOMContentLoaded', () => {
   const scrollToElement = (elementId) => {
@@ -520,121 +509,6 @@ function resetLimits() {
   showToast('무제한 모드 해제');
 }
 
-// // 예시: 하루 분석 저장
-// function saveDailyAnalysis(studyHour, goalAchieveRate) {
-//   // studyHour: 오늘 공부시간 (시간/분)
-//   // goalAchieveRate: 목표 달성률(0~100)
-//   const today = getTodayString();
-//   let log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
-//   log.push({
-//     date: today,
-//     studyHour: Number(studyHour),
-//     goalAchieveRate: Number(goalAchieveRate)
-//   });
-//   // 최근 14개만 저장 (2주치)
-//   if (log.length > 14) log = log.slice(log.length - 14);
-//   localStorage.setItem("analysisLog", JSON.stringify(log));
-// }
-
-// function drawGrowthChart() {
-//   const ctxId = "growthChartCanvas";
-//   let chartDiv = document.getElementById('growth-chart');
-//   chartDiv.innerHTML = `<canvas id="${ctxId}" width="340" height="340"></canvas>`;
-//   const ctx = document.getElementById(ctxId).getContext('2d');
-//   const log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
-//   if (log.length === 0) {
-//     chartDiv.innerHTML += "<div style='text-align:center;margin-top:1em;'>분석 차트 공간</div>";
-//     return;
-//   }
-//   // 최근 7일 평균값
-//   const last7 = log.slice(-7);
-//   const avgStudy = (last7.reduce((sum, x) => sum + x.studyHour, 0) / last7.length).toFixed(1);
-//   const avgGoal = (last7.reduce((sum, x) => sum + x.goalAchieveRate, 0) / last7.length).toFixed(1);
-
-//   new Chart(ctx, {
-//     type: 'doughnut',
-//     data: {
-//       labels: ['공부시간(시/분)', '목표달성률(%)'],
-//       datasets: [{
-//         data: [avgStudy, avgGoal],
-//         borderWidth: 2,
-//       }]
-//     },
-//     options: {
-//       responsive: false,
-//       plugins: {
-//         legend: { position: 'bottom' }
-//       }
-//     }
-//   });
-// }
-
-
-// document.getElementById('reset-analysis').addEventListener('click', function() {
-//   if (confirm('정말로 모든 분석 데이터를 초기화할까요?')) {
-//     localStorage.removeItem('analysisLog');
-//     drawGrowthChart();
-//     showReport();
-//     alert('분석 데이터가 초기화되었습니다!');
-//   }
-// });
-
-// function showReport() {
-//   const log = JSON.parse(localStorage.getItem("analysisLog") || "[]");
-//   if (log.length === 0) {
-//     document.getElementById('report-area').innerText = '';
-//     return;
-//   }
-//   // 최근 7일 데이터
-//   const last7 = log.slice(-7);
-//   const avgStudy = (last7.reduce((sum, x) => sum + x.studyHour, 0) / last7.length).toFixed(1);
-//   const avgGoal = (last7.reduce((sum, x) => sum + x.goalAchieveRate, 0) / last7.length).toFixed(1);
-//   let tip = "";
-//   if (avgGoal > 90) tip = "목표 달성률이 매우 높아요! 꾸준함을 유지해보세요.";
-//   else if (avgGoal > 60) tip = "목표에 근접하고 있어요! 목표 관리 습관을 만들면 더 좋아질 수 있습니다.";
-//   else tip = "목표 달성률이 낮아요. 실천 가능한 작은 목표를 먼저 잡아보세요!";
-
-//   document.getElementById('report-area').innerHTML = `
-//     <b>최근 7일 평균 공부시간</b> : ${avgStudy} 시간<br>
-//     <b>최근 7일 평균 목표 달성률</b> : ${avgGoal}%<br>
-//     <b>AI 학습 도우미 코멘트:</b> ${tip}
-//   `;
-// }
-// document.getElementById('query-contents').addEventListener('submit', function(e) {
-//   e.preventDefault();
-//   const studyHour = document.getElementById('study_time').value || 0;
-//   const goal = document.getElementById('goal_rate').value || 0;
-//     const age = document.getElementById('age').value;
-//   const preferred = document.getElementById('preferred_method').value;
-//   const difficulties = document.getElementById('difficulties').value;
-//   const goals = document.getElementById('goals').value;
-//   const concentration = document.getElementById('concentration').value;
-//   const breakMethod = document.getElementById('break_method').value;
-//   const memoHabit = document.getElementById('memo_habit').value;
-
-//   let log = JSON.parse(localStorage.getItem("patternAnalysisLog") || "[]");
-//   log.push({
-//     date: getTodayString(),
-//     age,
-//     studyHour: Number(studyHour),
-//     preferred,
-//     difficulties,
-//     goals,
-//     concentration,
-//     breakMethod,
-//     memoHabit
-//   });
-//   // 최근 14개만 저장
-//   if (log.length > 14) log = log.slice(log.length - 14);
-//   localStorage.setItem("patternAnalysisLog", JSON.stringify(log));
-//   saveDailyAnalysis(studyHour, goal);
-//   drawGrowthChart();
-//   showReport();
-//   document.getElementById('query-contents').reset();
-//   alert('분석이 저장되었습니다!');
-// });
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const group3 = document.querySelector(".group3");
   const bulb = document.getElementById("bulb");
@@ -710,6 +584,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 💡 브라우저 크기 바뀌면 다시 위치 재계산
+  // 브라우저 크기 바뀌면 다시 위치 재계산
   window.addEventListener("resize", () => goToSlide(currentIndex));
 });
